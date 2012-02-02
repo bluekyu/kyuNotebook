@@ -15,6 +15,7 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import ui_mainWindow
+import noteTreeWidget
 
 __version__ = '0.0.1'
 __program_name__ = 'kyuNotebook'
@@ -22,13 +23,17 @@ __author__ = 'YoungUk Kim'
 __date__ = '02.02.2012'
 
 class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
-    DIR_TYPE = 1001
-    NOTE_TYPE = 1002
-    PAGE_TYPE = 1003
-    
+    '''메인 윈도우 클래스'''
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
+        self.noteTree = noteTreeWidget.NoteTreeWidget()
+        self.noteTreeDockWidget.setWidget(self.noteTree)
+
+        self.connect(self.noteTree,
+            SIGNAL('currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)'),
+            self.NoteTreeActionEnabled)
 
         ### 설정 복원 ###
         settings = QSettings()
@@ -47,36 +52,22 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     @pyqtSignature('')
     def on_newDirAction_triggered(self):
         currentDir = self.noteTree.currentItem()
-        dirItem = QTreeWidgetItem(currentDir, [self.tr('새 폴더')], self.DIR_TYPE)
+        dirItem = QTreeWidgetItem(
+                    currentDir, [self.tr('새 폴더')], self.noteTree.DIR_TYPE)
         dirItem.setExpanded(True)
 
     @pyqtSignature('')
     def on_newNoteAction_triggered(self):
         currentDir = self.noteTree.currentItem()
-        noteItem = QTreeWidgetItem(currentDir, [self.tr('새 노트')], self.NOTE_TYPE)
+        noteItem = QTreeWidgetItem(
+                    currentDir, [self.tr('새 노트')], self.noteTree.NOTE_TYPE)
         noteItem.setExpanded(True)
 
     @pyqtSignature('')
     def on_newPageAction_triggered(self):
         currentNote = self.noteTree.currentItem()
-        pageItem = QTreeWidgetItem(currentNote, [self.tr('새 페이지')], self.PAGE_TYPE)
-
-    @pyqtSignature('QTreeWidgetItem*, QTreeWidgetItem*')
-    def on_noteTree_currentItemChanged(self, currentItem, previousItem):
-        self.newDirAction.setEnabled(False)
-        self.newNoteAction.setEnabled(False)
-        self.newPageAction.setEnabled(False)
- 
-        currentType = currentItem.type()
-        if currentType == self.DIR_TYPE:
-            self.newDirAction.setEnabled(True)
-            self.newNoteAction.setEnabled(True)
-        elif currentType == self.NOTE_TYPE:
-            self.newPageAction.setEnabled(True)
-        elif currentType == self.PAGE_TYPE:
-            pass
-        else:
-            self.newDirAction.setEnabled(True)
+        pageItem = QTreeWidgetItem(
+                    currentNote, [self.tr('새 페이지')], self.noteTree.PAGE_TYPE)
 
     ### 메소드 ###
     def closeEvent(self, event):
@@ -84,6 +75,22 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         settings.setValue('lastFilePath', self.filePath)
         settings.setValue('mainWindow.Geometry', self.saveGeometry())
         settings.setValue('mainWindow.State', self.saveState())
+
+    def NoteTreeActionEnabled(self, currentItem, previousItem):
+        self.newDirAction.setEnabled(False)
+        self.newNoteAction.setEnabled(False)
+        self.newPageAction.setEnabled(False)
+ 
+        currentType = currentItem.type()
+        if currentType == self.noteTree.DIR_TYPE:
+            self.newDirAction.setEnabled(True)
+            self.newNoteAction.setEnabled(True)
+        elif currentType == self.noteTree.NOTE_TYPE:
+            self.newPageAction.setEnabled(True)
+        elif currentType == self.noteTree.PAGE_TYPE:
+            pass
+        else:
+            self.newDirAction.setEnabled(True)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
