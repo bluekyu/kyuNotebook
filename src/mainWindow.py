@@ -22,19 +22,72 @@ __author__ = 'YoungUk Kim'
 __date__ = '02.02.2012'
 
 class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
+    DIR_TYPE = 1001
+    NOTE_TYPE = 1002
+    PAGE_TYPE = 1003
+    
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
 
-        ### 액션 ###
-        self.connect(self.newDirAction, SIGNAL('triggered()'), self.NewDir)
+        ### 설정 복원 ###
+        settings = QSettings()
+        self.filePath = settings.value('lastFilePath') or None
+        self.restoreGeometry(settings.value('mainWindow.Geometry', 
+            QByteArray()))
+        self.restoreState(settings.value('mainWindow.State',
+            QByteArray()))
 
-    def NewDir(self):
-        dirItem = QTreeWidgetItem(self.noteTree, [self.tr('새 폴더')])
+        if self.filePath is None:
+            rootItem = QTreeWidgetItem(self.noteTree, [self.tr('폴더 목록')])
+            rootItem.setExpanded(True)
+            self.noteTree.setCurrentItem(rootItem)
+
+    ### 슬롯 ###
+    @pyqtSignature('')
+    def on_newDirAction_triggered(self):
+        currentDir = self.noteTree.currentItem()
+        dirItem = QTreeWidgetItem(currentDir, [self.tr('새 폴더')], self.DIR_TYPE)
+        dirItem.setExpanded(True)
+
+    @pyqtSignature('')
+    def on_newNoteAction_triggered(self):
+        currentDir = self.noteTree.currentItem()
+        noteItem = QTreeWidgetItem(currentDir, [self.tr('새 노트')], self.NOTE_TYPE)
+        noteItem.setExpanded(True)
+
+    @pyqtSignature('')
+    def on_newPageAction_triggered(self):
+        currentNote = self.noteTree.currentItem()
+        pageItem = QTreeWidgetItem(currentNote, [self.tr('새 페이지')], self.PAGE_TYPE)
+
+    @pyqtSignature('QTreeWidgetItem*, QTreeWidgetItem*')
+    def on_noteTree_currentItemChanged(self, currentItem, previousItem):
+        self.newDirAction.setEnabled(False)
+        self.newNoteAction.setEnabled(False)
+        self.newPageAction.setEnabled(False)
+ 
+        currentType = currentItem.type()
+        if currentType == self.DIR_TYPE:
+            self.newDirAction.setEnabled(True)
+            self.newNoteAction.setEnabled(True)
+        elif currentType == self.NOTE_TYPE:
+            self.newPageAction.setEnabled(True)
+        elif currentType == self.PAGE_TYPE:
+            pass
+        else:
+            self.newDirAction.setEnabled(True)
+
+    ### 메소드 ###
+    def closeEvent(self, event):
+        settings = QSettings()
+        settings.setValue('lastFilePath', self.filePath)
+        settings.setValue('mainWindow.Geometry', self.saveGeometry())
+        settings.setValue('mainWindow.State', self.saveState())
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    QTextCodec.setCodecForTr(QTextCodec.codecForName('UTF-8')) # Instead of trUtf8
+    QTextCodec.setCodecForTr(QTextCodec.codecForName('UTF-8')) # trUtf8 대신 사용
 
     app.setOrganizationName('bluekyu')
     app.setOrganizationDomain('bluekyu.me')
