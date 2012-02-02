@@ -26,11 +26,20 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         super().__init__(parent)
         self.setupUi(self)
 
+        ### 액션 ###
+        self.connect(self.newDirAction, SIGNAL('triggered()'), self.NewDir)
+
+    def NewDir(self):
+        dirItem = QTreeWidgetItem(self.noteTree, [self.tr('새 폴더')])
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    QTextCodec.setCodecForTr(QTextCodec.codecForName('UTF-8')) # Instead of trUtf8
+
     app.setOrganizationName('bluekyu')
     app.setOrganizationDomain('bluekyu.me')
     app.setApplicationName(__program_name__)
+
     mainWindow = MainWindow()
     mainWindow.show()
     app.exec_()

@@ -47,13 +47,13 @@
     <property name="title">
      <string>파일</string>
     </property>
-    <addaction name="action_2"/>
-    <addaction name="action_3"/>
+    <addaction name="newDirAction"/>
+    <addaction name="newNoteAction"/>
     <addaction name="separator"/>
-    <addaction name="action_5"/>
-    <addaction name="action_7"/>
+    <addaction name="openNoteAction"/>
+    <addaction name="saveNoteAction"/>
     <addaction name="separator"/>
-    <addaction name="action"/>
+    <addaction name="quitAction"/>
    </widget>
    <widget class="QMenu" name="editMenu">
     <property name="title">
@@ -86,32 +86,38 @@
    <widget class="QWidget" name="dockWidgetContent">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QListWidget" name="noteTree"/>
+      <widget class="QTreeWidget" name="noteTree">
+       <column>
+        <property name="text">
+         <string notr="true">1</string>
+        </property>
+       </column>
+      </widget>
      </item>
     </layout>
    </widget>
   </widget>
-  <action name="action">
+  <action name="quitAction">
    <property name="text">
     <string>종료</string>
    </property>
   </action>
-  <action name="action_2">
+  <action name="newDirAction">
    <property name="text">
     <string>새 폴더</string>
    </property>
   </action>
-  <action name="action_3">
+  <action name="newNoteAction">
    <property name="text">
     <string>새 노트</string>
    </property>
   </action>
-  <action name="action_5">
+  <action name="openNoteAction">
    <property name="text">
     <string>노트 열기</string>
    </property>
   </action>
-  <action name="action_7">
+  <action name="saveNoteAction">
    <property name="text">
     <string>노트 저장</string>
    </property>
