@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>723</width>
+    <height>496</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>kyuNotebook</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="pageTab">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page1">
+       <attribute name="title">
+        <string>페이지1</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QTextEdit" name="textEdit1"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>723</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="fileMenu">
+    <property name="title">
+     <string>파일</string>
+    </property>
+    <addaction name="action_2"/>
+    <addaction name="action_3"/>
+    <addaction name="separator"/>
+    <addaction name="action_5"/>
+    <addaction name="action_7"/>
+    <addaction name="separator"/>
+    <addaction name="action"/>
+   </widget>
+   <widget class="QMenu" name="editMenu">
+    <property name="title">
+     <string>편집</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="toolMenu">
+    <property name="title">
+     <string>도구</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="helpMenu">
+    <property name="title">
+     <string>도움말</string>
+    </property>
+   </widget>
+   <addaction name="fileMenu"/>
+   <addaction name="editMenu"/>
+   <addaction name="toolMenu"/>
+   <addaction name="helpMenu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QDockWidget" name="dockWidget">
+   <property name="windowTitle">
+    <string>노트 트리</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContent">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QListWidget" name="noteTree"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <action name="action">
+   <property name="text">
+    <string>종료</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>새 폴더</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>새 노트</string>
+   </property>
+  </action>
+  <action name="action_5">
+   <property name="text">
+    <string>노트 열기</string>
+   </property>
+  </action>
+  <action name="action_7">
+   <property name="text">
+    <string>노트 저장</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
