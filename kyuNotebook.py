@@ -1,0 +1,1 @@
+/home/bluekyu/Documents/Programming/MyProgram/kyuNotebook/src/mainWindow.py
