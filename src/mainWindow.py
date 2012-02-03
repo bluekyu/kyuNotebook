@@ -51,23 +51,15 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     ### 슬롯 ###
     @pyqtSignature('')
     def on_newDirAction_triggered(self):
-        currentDir = self.noteTree.currentItem()
-        dirItem = QTreeWidgetItem(
-                    currentDir, [self.tr('새 폴더')], self.noteTree.DIR_TYPE)
-        dirItem.setExpanded(True)
+        self.noteTree.NewDir()
 
     @pyqtSignature('')
     def on_newNoteAction_triggered(self):
-        currentDir = self.noteTree.currentItem()
-        noteItem = QTreeWidgetItem(
-                    currentDir, [self.tr('새 노트')], self.noteTree.NOTE_TYPE)
-        noteItem.setExpanded(True)
+        self.noteTree.NewNote()
 
     @pyqtSignature('')
     def on_newPageAction_triggered(self):
-        currentNote = self.noteTree.currentItem()
-        pageItem = QTreeWidgetItem(
-                    currentNote, [self.tr('새 페이지')], self.noteTree.PAGE_TYPE)
+        self.noteTree.NewPage()
 
     ### 메소드 ###
     def closeEvent(self, event):
