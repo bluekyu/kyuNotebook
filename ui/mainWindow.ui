@@ -47,6 +47,8 @@
     <addaction name="newNoteAction"/>
     <addaction name="newPageAction"/>
     <addaction name="separator"/>
+    <addaction name="changeNoteDirAction"/>
+    <addaction name="separator"/>
     <addaction name="quitAction"/>
    </widget>
    <widget class="QMenu" name="editMenu">
@@ -99,18 +101,32 @@
    </property>
   </action>
   <action name="newPageAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>새 페이지</string>
    </property>
   </action>
   <action name="newNoteAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>새 노트</string>
    </property>
   </action>
   <action name="newDirAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>새 폴더</string>
+   </property>
+  </action>
+  <action name="changeNoteDirAction">
+   <property name="text">
+    <string>노트 폴더 변경</string>
    </property>
   </action>
  </widget>

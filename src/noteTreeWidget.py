@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""
+'''
 Copyright (C) 2012년 bluekyu (http://www.bluekyu.me/)
 이 프로그램은 자유 소프트웨어입니다. 소프트웨어의 피양도자는 자유 소프트웨어
 재단이 공표한 GNU 일반 공중 사용 허가서 2판 또는 그 이후 판을 임의로
@@ -9,7 +9,7 @@ Copyright (C) 2012년 bluekyu (http://www.bluekyu.me/)
 특정한 목적에 맞는 적합성 여부나 판매용으로 사용할 수 있으리라는 묵시적인
 보증을 포함한 어떠한 형태의 보증도 제공하지 않습니다. 보다 자세한 사항에
 대해서는 GNU 일반 공중 사용 허가서를 참고하시기 바랍니다.
-"""
+'''
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *

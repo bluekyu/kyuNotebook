@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../ui/mainWindow.ui'
 #
-# Created: Fri Feb  3 00:34:58 2012
+# Created: Fri Feb  3 12:12:21 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -66,17 +66,25 @@ class Ui_MainWindow(object):
         self.quitAction.setText(QtGui.QApplication.translate("MainWindow", "종료", None, QtGui.QApplication.UnicodeUTF8))
         self.quitAction.setObjectName(_fromUtf8("quitAction"))
         self.newPageAction = QtGui.QAction(MainWindow)
+        self.newPageAction.setEnabled(False)
         self.newPageAction.setText(QtGui.QApplication.translate("MainWindow", "새 페이지", None, QtGui.QApplication.UnicodeUTF8))
         self.newPageAction.setObjectName(_fromUtf8("newPageAction"))
         self.newNoteAction = QtGui.QAction(MainWindow)
+        self.newNoteAction.setEnabled(False)
         self.newNoteAction.setText(QtGui.QApplication.translate("MainWindow", "새 노트", None, QtGui.QApplication.UnicodeUTF8))
         self.newNoteAction.setObjectName(_fromUtf8("newNoteAction"))
         self.newDirAction = QtGui.QAction(MainWindow)
+        self.newDirAction.setEnabled(False)
         self.newDirAction.setText(QtGui.QApplication.translate("MainWindow", "새 폴더", None, QtGui.QApplication.UnicodeUTF8))
         self.newDirAction.setObjectName(_fromUtf8("newDirAction"))
+        self.changeNoteDirAction = QtGui.QAction(MainWindow)
+        self.changeNoteDirAction.setText(QtGui.QApplication.translate("MainWindow", "노트 폴더 변경", None, QtGui.QApplication.UnicodeUTF8))
+        self.changeNoteDirAction.setObjectName(_fromUtf8("changeNoteDirAction"))
         self.fileMenu.addAction(self.newDirAction)
         self.fileMenu.addAction(self.newNoteAction)
         self.fileMenu.addAction(self.newPageAction)
+        self.fileMenu.addSeparator()
+        self.fileMenu.addAction(self.changeNoteDirAction)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.quitAction)
         self.menubar.addAction(self.fileMenu.menuAction())
