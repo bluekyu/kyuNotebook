@@ -18,7 +18,8 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
-        self.noteTree = noteTreeWidget.NoteTreeWidget()
+        self.fileManager = fileManager.FileManager(self)
+        self.noteTree = noteTreeWidget.NoteTreeWidget(self)
         self.noteTreeDockWidget.setWidget(self.noteTree)
 
         self.connect(self.noteTree,
@@ -27,22 +28,23 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
         ### 설정 복원 ###
         settings = QSettings()
-        self.noteDirPath = settings.value('lastNoteDirPath') or ''
+        self.fileManager.noteDirPath = settings.value('lastNoteDirPath') or ''
         self.restoreGeometry(settings.value('mainWindow.Geometry', 
             QByteArray()))
         self.restoreState(settings.value('mainWindow.State',
             QByteArray()))
 
         # 기존 노트 열기
-        if not fileManager.os.path.exists(self.noteDirPath):
+        if not self.fileManager.NoteExists():
             QTimer.singleShot(0, self.on_changeNoteDirAction_triggered)
         else:
-            fileManager.LoadNote(self.noteDirPath)
+            self.fileManager.LoadNote(self.noteTree)
 
     ### 슬롯 ###
     @pyqtSignature('')
     def on_newDirAction_triggered(self):
-        self.noteTree.NewDir()
+        key = self.fileManager.NewDir(self.noteTree.GetItemPathList())
+        self.noteTree.NewDir(key)
 
     @pyqtSignature('')
     def on_newNoteAction_triggered(self):
@@ -54,13 +56,13 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     @pyqtSignature('')
     def on_changeNoteDirAction_triggered(self):
-        self.noteDirPath = fileManager.ChangeNoteDirPath(self, self.noteDirPath)
-        fileManager.LoadNote(self.noteDirPath)
+        self.fileManager.ChangeNoteDirPath()
+        self.fileManager.LoadNote(self.noteTree)
 
     ### 메소드 ###
     def closeEvent(self, event):
         settings = QSettings()
-        settings.setValue('lastNoteDirPath', self.noteDirPath)
+        settings.setValue('lastNoteDirPath', self.fileManager.noteDirPath)
         settings.setValue('mainWindow.Geometry', self.saveGeometry())
         settings.setValue('mainWindow.State', self.saveState())
 
