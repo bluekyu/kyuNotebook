@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../ui/mainWindow.ui'
 #
-# Created: Sun Feb  5 14:12:48 2012
+# Created: Sun Feb  5 15:21:10 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -25,11 +25,6 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.pageTab = QtGui.QTabWidget(self.centralwidget)
         self.pageTab.setObjectName(_fromUtf8("pageTab"))
-        self.newPage = QtGui.QWidget()
-        self.newPage.setObjectName(_fromUtf8("newPage"))
-        self.horizontalLayout_3 = QtGui.QHBoxLayout(self.newPage)
-        self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
-        self.pageTab.addTab(self.newPage, _fromUtf8(""))
         self.horizontalLayout.addWidget(self.pageTab)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
@@ -90,10 +85,10 @@ class Ui_MainWindow(object):
         self.fileToolBar.addAction(self.newPageAction)
 
         self.retranslateUi(MainWindow)
-        self.pageTab.setCurrentIndex(0)
+        self.pageTab.setCurrentIndex(-1)
         QtCore.QObject.connect(self.quitAction, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        self.pageTab.setTabText(self.pageTab.indexOf(self.newPage), QtGui.QApplication.translate("MainWindow", "새 페이지", None, QtGui.QApplication.UnicodeUTF8))
+        pass
 

@@ -6,6 +6,7 @@ from PyQt4.QtGui import *
 import ui_mainWindow
 import noteTreeWidget
 import fileManager
+import textEditor
 
 __version__ = '0.0.1'
 __program_name__ = 'kyuNotebook'
@@ -48,8 +49,11 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     @pyqtSignature('')
     def on_newPageAction_triggered(self):
-        key, page = self.fileManager.NewPage(self.noteTree.GetItemPathList())
+        key, pageFile = self.fileManager.NewPage(self.noteTree.GetItemPathList())
         self.noteTree.NewPage(key)
+        editor = textEditor.TextEditor()
+        editor.pageFile = pageFile
+        self.pageTab.addTab(editor, self.tr('새 페이지'))
 
     @pyqtSignature('')
     def on_changeNoteDirAction_triggered(self):

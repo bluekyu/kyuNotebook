@@ -18,14 +18,8 @@
     <item>
      <widget class="QTabWidget" name="pageTab">
       <property name="currentIndex">
-       <number>0</number>
+       <number>-1</number>
       </property>
-      <widget class="QWidget" name="newPage">
-       <attribute name="title">
-        <string>새 페이지</string>
-       </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_3"/>
-      </widget>
      </widget>
     </item>
    </layout>
