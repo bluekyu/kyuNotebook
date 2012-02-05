@@ -49,16 +49,21 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     @pyqtSignature('')
     def on_newPageAction_triggered(self):
-        key, pageFile = self.fileManager.NewPage(self.noteTree.GetItemPathList())
+        key, pagePath = self.fileManager.NewPage(self.noteTree.GetItemPathList())
         self.noteTree.CurrentNewPage(key)
-        editor = textEditor.TextEditor()
-        editor.pageFile = pageFile
+        editor = textEditor.TextEditor(pagePath)
         self.pageTab.addTab(editor, self.tr('새 페이지'))
 
     @pyqtSignature('')
     def on_changeNoteDirAction_triggered(self):
         self.fileManager.ChangeNoteDirPath()
         self.fileManager.LoadNote(self.noteTree)
+
+    @pyqtSignature('int')
+    def on_pageTab_tabCloseRequested(self, tabIndex):
+        editor = self.pageTab.widget(tabIndex)
+        if editor.CloseRequest():
+            self.pageTab.removeTab(tabIndex)
 
     ### 메소드 ###
     def closeEvent(self, event):

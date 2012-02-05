@@ -70,7 +70,7 @@ class FileManager(QObject):
         notePath = os.path.join(self.noteDirPath, *pathList)
         pageName = self.MakeTempName('', '.html', notePath)
         pagePath = os.path.join(notePath, pageName)
-        page = open(pagePath, mode='w')
+        open(pagePath, 'w').close()
 
         # xml에 페이지 추가
         xmlPath = os.path.join(notePath, self.CONFIG_FILE_NAME)
@@ -81,7 +81,7 @@ class FileManager(QObject):
         rootElement.append(newElement)
         configXml.write(xmlPath, 'unicode', True)
 
-        return (pageName, page)
+        return (pageName, pagePath)
 
     def MakeTempName(self, prefix, suffix, dirPath):
         while True:
