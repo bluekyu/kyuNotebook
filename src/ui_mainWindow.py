@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../ui/mainWindow.ui'
 #
-# Created: Sun Feb  5 13:18:20 2012
+# Created: Sun Feb  5 14:12:48 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -73,16 +73,9 @@ class Ui_MainWindow(object):
         self.newNoteAction.setEnabled(False)
         self.newNoteAction.setText(QtGui.QApplication.translate("MainWindow", "새 노트", None, QtGui.QApplication.UnicodeUTF8))
         self.newNoteAction.setObjectName(_fromUtf8("newNoteAction"))
-        self.newDirAction = QtGui.QAction(MainWindow)
-        self.newDirAction.setEnabled(False)
-        self.newDirAction.setText(QtGui.QApplication.translate("MainWindow", "새 폴더", None, QtGui.QApplication.UnicodeUTF8))
-        self.newDirAction.setObjectName(_fromUtf8("newDirAction"))
         self.changeNoteDirAction = QtGui.QAction(MainWindow)
         self.changeNoteDirAction.setText(QtGui.QApplication.translate("MainWindow", "노트 폴더 변경", None, QtGui.QApplication.UnicodeUTF8))
         self.changeNoteDirAction.setObjectName(_fromUtf8("changeNoteDirAction"))
-        self.action = QtGui.QAction(MainWindow)
-        self.action.setText(QtGui.QApplication.translate("MainWindow", "새 노트 폴더", None, QtGui.QApplication.UnicodeUTF8))
-        self.action.setObjectName(_fromUtf8("action"))
         self.fileMenu.addAction(self.newNoteAction)
         self.fileMenu.addAction(self.newPageAction)
         self.fileMenu.addSeparator()

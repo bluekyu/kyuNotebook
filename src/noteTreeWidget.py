@@ -20,10 +20,11 @@ class NoteTreeWidget(QTreeWidget):
         noteItem.setData(1, Qt.UserRole, key)
         noteItem.setExpanded(True)
 
-    def NewPage(self):
+    def NewPage(self, key):
         currentNote = self.currentItem()
         pageItem = QTreeWidgetItem(
                     currentNote, [self.tr('새 페이지')], self.PAGE_TYPE)
+        pageItem.setData(1, Qt.UserRole, key)
 
     def GetItemPathList(self):
         pathList = []
@@ -33,4 +34,3 @@ class NoteTreeWidget(QTreeWidget):
                 return pathList
             pathList.insert(0, currentItem.data(1, Qt.UserRole))
             currentItem = currentItem.parent()
-

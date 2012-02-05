@@ -16,7 +16,7 @@ class FileManager(QObject):
 
     def ChangeNoteDirPath(self):
         newNoteDirPath = QFileDialog.getExistingDirectory(self, 
-                self.tr('새 폴더 목록'),
+                self.tr('새 노트 폴더'),
                 oldNoteDirPath or os.path.expanduser('~'))
 
         if not newNoteDirPath:
@@ -47,8 +47,8 @@ class FileManager(QObject):
     def NewNote(self, pathList):
         notePath = os.path.join(self.noteDirPath, *pathList)
         noteName = self.MakeTempName('', '', notePath)
-        newDirPath = os.path.join(notePath, noteName)
-        os.mkdir(newDirPath, 0o755)
+        newNotePath = os.path.join(notePath, noteName)
+        os.mkdir(newNotePath, 0o755)
 
         # xml에 노트 추가
         xmlPath = os.path.join(notePath, self.CONFIG_FILE_NAME)
@@ -60,11 +60,28 @@ class FileManager(QObject):
         configXml.write(xmlPath, 'unicode', True)
 
         # xml 추가
-        xmlPath = os.path.join(newDirPath, self.CONFIG_FILE_NAME)
+        xmlPath = os.path.join(newNotePath, self.CONFIG_FILE_NAME)
         xml.ElementTree(xml.Element('note')).write(
                 xmlPath, 'unicode', True)
 
         return noteName
+
+    def NewPage(self, pathList):
+        notePath = os.path.join(self.noteDirPath, *pathList)
+        pageName = self.MakeTempName('', '.html', notePath)
+        pagePath = os.path.join(notePath, pageName)
+        page = open(pagePath, mode='w')
+
+        # xml에 페이지 추가
+        xmlPath = os.path.join(notePath, self.CONFIG_FILE_NAME)
+        configXml = xml.ElementTree()
+        rootElement = configXml.parse(xmlPath)
+        newElement = xml.Element('page',
+                {'title': self.tr('새 페이지'), 'name': pageName})
+        rootElement.append(newElement)
+        configXml.write(xmlPath, 'unicode', True)
+
+        return (pageName, page)
 
     def MakeTempName(self, prefix, suffix, dirPath):
         while True:

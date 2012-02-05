@@ -114,22 +114,9 @@
     <string>새 노트</string>
    </property>
   </action>
-  <action name="newDirAction">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>새 폴더</string>
-   </property>
-  </action>
   <action name="changeNoteDirAction">
    <property name="text">
     <string>노트 폴더 변경</string>
-   </property>
-  </action>
-  <action name="action">
-   <property name="text">
-    <string>새 노트 폴더</string>
    </property>
   </action>
  </widget>

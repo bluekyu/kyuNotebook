@@ -48,7 +48,8 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     @pyqtSignature('')
     def on_newPageAction_triggered(self):
-        self.noteTree.NewPage()
+        key, page = self.fileManager.NewPage(self.noteTree.GetItemPathList())
+        self.noteTree.NewPage(key)
 
     @pyqtSignature('')
     def on_changeNoteDirAction_triggered(self):
