@@ -51,8 +51,9 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     def on_newPageAction_triggered(self):
         key, pagePath = self.fileManager.NewPage(self.noteTree.GetItemPathList())
         self.noteTree.CurrentNewPage(key)
-        editor = textEditor.TextEditor(pagePath)
-        self.pageTab.addTab(editor, self.tr('새 페이지'))
+        pageTitle = self.tr('새 페이지')
+        editor = textEditor.TextEditor(pageTitle, pagePath)
+        self.pageTab.addTab(editor, pageTitle)
 
     @pyqtSignature('')
     def on_changeNoteDirAction_triggered(self):

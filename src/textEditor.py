@@ -4,10 +4,11 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 class TextEditor(QTextEdit):
-    def __init__(self, pagePath=None, parent=None):
+    def __init__(self, pageTitle='', pagePath=None, parent=None):
         super().__init__(parent)
 
         self.pagePath = pagePath
+        self.pageTitle = pageTitle
         self.changed = False
 
         self.connect(self, SIGNAL('textChanged()'), self.Changed)
@@ -17,9 +18,9 @@ class TextEditor(QTextEdit):
 
     def CloseRequest(self):
         if self.changed:
-            answer = QMessageBox.question(self, self.tr('노트 저장'), 
-                    self.tr('노트를 저장하시겠습니까?'),
-                    QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
+            answer = QMessageBox.question(self, self.tr('페이지 저장'), 
+                self.tr('"{0}" 페이지를 저장하시겠습니까?').format(self.pageTitle),
+                QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
 
             if answer == QMessageBox.Cancel:
                 return False
