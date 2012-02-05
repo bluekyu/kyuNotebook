@@ -44,27 +44,27 @@ class FileManager(QObject):
             else:
                 shutil.copy2(filePath, dest)
 
-    def NewDir(self, pathList):
-        dirPath = os.path.join(self.noteDirPath, *pathList)
-        dirName = self.MakeTempName('', '', dirPath)
-        newDirPath = os.path.join(dirPath, dirName)
+    def NewNote(self, pathList):
+        notePath = os.path.join(self.noteDirPath, *pathList)
+        noteName = self.MakeTempName('', '', notePath)
+        newDirPath = os.path.join(notePath, noteName)
         os.mkdir(newDirPath, 0o755)
 
-        # xml에 폴더 추가
-        xmlPath = os.path.join(dirPath, self.CONFIG_FILE_NAME)
+        # xml에 노트 추가
+        xmlPath = os.path.join(notePath, self.CONFIG_FILE_NAME)
         configXml = xml.ElementTree()
         rootElement = configXml.parse(xmlPath)
-        newElement = xml.Element('dir', 
-                {'title': self.tr('새 폴더'), 'name': dirName})
+        newElement = xml.Element('subnote', 
+                {'title': self.tr('새 노트'), 'name': noteName})
         rootElement.append(newElement)
         configXml.write(xmlPath, 'unicode', True)
 
         # xml 추가
         xmlPath = os.path.join(newDirPath, self.CONFIG_FILE_NAME)
-        xml.ElementTree(xml.Element('directory')).write(
+        xml.ElementTree(xml.Element('note')).write(
                 xmlPath, 'unicode', True)
 
-        return dirName
+        return noteName
 
     def MakeTempName(self, prefix, suffix, dirPath):
         while True:
@@ -77,7 +77,7 @@ class FileManager(QObject):
     def LoadNote(self, noteTree):
         xmlPath = os.path.join(self.noteDirPath, self.CONFIG_FILE_NAME)
         if not os.path.exists(xmlPath):
-            xml.ElementTree(xml.Element('directory')).write(
+            xml.ElementTree(xml.Element('note')).write(
                     xmlPath, 'unicode', True)
         rootElement = xml.ElementTree().parse(xmlPath)
         rootItem = QTreeWidgetItem(noteTree, [self.tr('노트 폴더')])

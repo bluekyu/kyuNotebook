@@ -42,13 +42,9 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     ### 슬롯 ###
     @pyqtSignature('')
-    def on_newDirAction_triggered(self):
-        key = self.fileManager.NewDir(self.noteTree.GetItemPathList())
-        self.noteTree.NewDir(key)
-
-    @pyqtSignature('')
     def on_newNoteAction_triggered(self):
-        self.noteTree.NewNote()
+        key = self.fileManager.NewNote(self.noteTree.GetItemPathList())
+        self.noteTree.NewNote(key)
 
     @pyqtSignature('')
     def on_newPageAction_triggered(self):
@@ -67,20 +63,17 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         settings.setValue('mainWindow.State', self.saveState())
 
     def NoteTreeActionEnabled(self, currentItem, previousItem):
-        self.newDirAction.setEnabled(False)
         self.newNoteAction.setEnabled(False)
         self.newPageAction.setEnabled(False)
  
         currentType = currentItem.type()
-        if currentType == self.noteTree.DIR_TYPE:
-            self.newDirAction.setEnabled(True)
+        if currentType == self.noteTree.NOTE_TYPE:
             self.newNoteAction.setEnabled(True)
-        elif currentType == self.noteTree.NOTE_TYPE:
             self.newPageAction.setEnabled(True)
         elif currentType == self.noteTree.PAGE_TYPE:
             pass
         else:
-            self.newDirAction.setEnabled(True)
+            self.newNoteAction.setEnabled(True)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

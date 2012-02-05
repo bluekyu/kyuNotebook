@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../ui/mainWindow.ui'
 #
-# Created: Fri Feb  3 12:12:21 2012
+# Created: Sun Feb  5 13:18:20 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -80,7 +80,9 @@ class Ui_MainWindow(object):
         self.changeNoteDirAction = QtGui.QAction(MainWindow)
         self.changeNoteDirAction.setText(QtGui.QApplication.translate("MainWindow", "노트 폴더 변경", None, QtGui.QApplication.UnicodeUTF8))
         self.changeNoteDirAction.setObjectName(_fromUtf8("changeNoteDirAction"))
-        self.fileMenu.addAction(self.newDirAction)
+        self.action = QtGui.QAction(MainWindow)
+        self.action.setText(QtGui.QApplication.translate("MainWindow", "새 노트 폴더", None, QtGui.QApplication.UnicodeUTF8))
+        self.action.setObjectName(_fromUtf8("action"))
         self.fileMenu.addAction(self.newNoteAction)
         self.fileMenu.addAction(self.newPageAction)
         self.fileMenu.addSeparator()
@@ -91,7 +93,6 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.editMenu.menuAction())
         self.menubar.addAction(self.toolMenu.menuAction())
         self.menubar.addAction(self.helpMenu.menuAction())
-        self.fileToolBar.addAction(self.newDirAction)
         self.fileToolBar.addAction(self.newNoteAction)
         self.fileToolBar.addAction(self.newPageAction)
 
