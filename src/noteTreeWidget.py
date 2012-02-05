@@ -13,18 +13,20 @@ class NoteTreeWidget(QTreeWidget):
         super().__init__(parent)
         self.setHeaderLabel(self.tr('이름'))
 
-    def NewNote(self, key):
-        currentDir = self.currentItem()
+    def MakeNote(self, root, title, key):
         noteItem = QTreeWidgetItem(
-                    currentDir, [self.tr('새 노트')], self.NOTE_TYPE)
+                    root, [title], self.NOTE_TYPE)
         noteItem.setData(1, Qt.UserRole, key)
         noteItem.setExpanded(True)
 
-    def NewPage(self, key):
-        currentNote = self.currentItem()
+        return noteItem
+
+    def MakePage(self, root, title, key):
         pageItem = QTreeWidgetItem(
-                    currentNote, [self.tr('새 페이지')], self.PAGE_TYPE)
+                    root, [title], self.PAGE_TYPE)
         pageItem.setData(1, Qt.UserRole, key)
+
+        return pageItem
 
     def GetItemPathList(self):
         pathList = []
@@ -34,3 +36,9 @@ class NoteTreeWidget(QTreeWidget):
                 return pathList
             pathList.insert(0, currentItem.data(1, Qt.UserRole))
             currentItem = currentItem.parent()
+
+    def CurrentNewNote(self, key):
+        self.MakeNote(self.currentItem(), self.tr('새 노트'), key)
+
+    def CurrentNewPage(self, key):
+        self.MakePage(self.currentItem(), self.tr('새 페이지'), key)

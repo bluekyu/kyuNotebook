@@ -92,10 +92,31 @@ class FileManager(QObject):
         return name
 
     def LoadNote(self, noteTree):
-        xmlPath = os.path.join(self.noteDirPath, self.CONFIG_FILE_NAME)
+        xmlDir = self.noteDirPath
+        xmlPath = os.path.join(xmlDir, self.CONFIG_FILE_NAME)
+        # xml 새로 생성
         if not os.path.exists(xmlPath):
             xml.ElementTree(xml.Element('note')).write(
                     xmlPath, 'unicode', True)
         rootElement = xml.ElementTree().parse(xmlPath)
         rootItem = QTreeWidgetItem(noteTree, [self.tr('노트 폴더')])
         rootItem.setExpanded(True)
+
+        noteList = []
+        while True:
+            for note in rootElement.iter('subnote'):
+                item = noteTree.MakeNote(
+                        rootItem, note.get('title'), note.get('name'))
+                noteList.insert(0, (item, 
+                    os.path.join(xmlDir, note.get('name'))))
+
+            for page in rootElement.iter('page'):
+                noteTree.MakePage(
+                        rootItem, page.get('title'), page.get('name'))
+
+            if noteList == []:
+                break
+
+            rootItem, xmlDir = noteList.pop()
+            rootElement = xml.ElementTree().parse(
+                    os.path.join(xmlDir, self.CONFIG_FILE_NAME))

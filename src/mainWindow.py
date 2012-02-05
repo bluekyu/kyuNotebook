@@ -45,12 +45,12 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     @pyqtSignature('')
     def on_newNoteAction_triggered(self):
         key = self.fileManager.NewNote(self.noteTree.GetItemPathList())
-        self.noteTree.NewNote(key)
+        self.noteTree.CurrentNewNote(key)
 
     @pyqtSignature('')
     def on_newPageAction_triggered(self):
         key, pageFile = self.fileManager.NewPage(self.noteTree.GetItemPathList())
-        self.noteTree.NewPage(key)
+        self.noteTree.CurrentNewPage(key)
         editor = textEditor.TextEditor()
         editor.pageFile = pageFile
         self.pageTab.addTab(editor, self.tr('새 페이지'))
