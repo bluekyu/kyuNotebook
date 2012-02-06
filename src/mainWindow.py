@@ -27,6 +27,10 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
             SIGNAL('currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)'),
             self.NoteTreeActionEnabled)
 
+        self.connect(self.noteTree,
+            SIGNAL('itemDoubleClicked(QTreeWidgetItem*, int)'),
+            self.OpenPage)
+
         ### 설정 복원 ###
         settings = QSettings()
         self.fileManager.noteDirPath = settings.value('lastNoteDirPath') or ''
@@ -44,16 +48,17 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     ### 슬롯 ###
     @pyqtSignature('')
     def on_newNoteAction_triggered(self):
-        key = self.fileManager.NewNote(self.noteTree.GetItemPathList())
+        key = self.fileManager.NewNote(
+                self.noteTree.GetCurrentItemPathList())
         self.noteTree.CurrentNewNote(key)
 
     @pyqtSignature('')
     def on_newPageAction_triggered(self):
-        key, pagePath = self.fileManager.NewPage(self.noteTree.GetItemPathList())
-        self.noteTree.CurrentNewPage(key)
-        pageTitle = self.tr('새 페이지')
-        editor = textEditor.TextEditor(pageTitle, pagePath)
-        self.pageTab.addTab(editor, pageTitle)
+        key, pagePath = self.fileManager.NewPage(
+                self.noteTree.GetCurrentItemPathList())
+        pageItem = self.noteTree.CurrentNewPage(key)
+        editor = textEditor.TextEditor(pageItem.text(0), pagePath)
+        self.pageTab.addTab(editor, pageItem.text(0))
 
     @pyqtSignature('')
     def on_changeNoteDirAction_triggered(self):
@@ -72,6 +77,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         if editor is not None:
             editor.Save()
 
+    @pyqtSignature('')
     def on_allPageSaveAction_triggered(self):
         for tabIndex in range(len(self.pageTab)):
             editor = self.pageTab.widget(tabIndex)
@@ -97,6 +103,13 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
             pass
         else:
             self.newNoteAction.setEnabled(True)
+
+    def OpenPage(self, item, column):
+        if item.type() == self.noteTree.PAGE_TYPE:
+            pathList = self.noteTree.GetItemPathList(item)
+            pagePath = self.fileManager.AbsoluteFilePath(*pathList)
+            editor = textEditor.TextEditor(item.text(0), pagePath)
+            self.pageTab.addTab(editor, item.text(0))
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

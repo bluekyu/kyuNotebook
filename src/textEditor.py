@@ -13,6 +13,8 @@ class TextEditor(QTextEdit):
 
         self.connect(self, SIGNAL('textChanged()'), self.Changed)
 
+        self.Load()
+
     def Changed(self):
         self.changed = True
 
@@ -29,6 +31,12 @@ class TextEditor(QTextEdit):
                 self.Save()
 
         return True
+
+    def Load(self):
+        pageFile = open(self.pagePath, 'r')
+        self.setHtml(pageFile.read())
+        pageFile.close()
+        self.changed = False
 
     def Save(self):
         pageFile = open(self.pagePath, 'w')

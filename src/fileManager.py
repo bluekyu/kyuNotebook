@@ -10,9 +10,13 @@ class FileManager(QObject):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.noteDirPath = ''
 
     def NoteExists(self):
         return os.path.exists(self.noteDirPath)
+
+    def AbsoluteFilePath(self, *pathList):
+        return os.path.join(self.noteDirPath, *pathList)
 
     def ChangeNoteDirPath(self):
         newNoteDirPath = QFileDialog.getExistingDirectory(self, 
