@@ -108,8 +108,13 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         if item.type() == self.noteTree.PAGE_TYPE:
             pathList = self.noteTree.GetItemPathList(item)
             pagePath = self.fileManager.AbsoluteFilePath(*pathList)
-            editor = textEditor.TextEditor(item.text(0), pagePath)
-            self.pageTab.addTab(editor, item.text(0))
+            for tabIndex in range(len(self.pageTab)):
+                if self.pageTab.widget(tabIndex).pagePath == pagePath:
+                    self.pageTab.setCurrentIndex(tabIndex)
+                    break
+            else:
+                editor = textEditor.TextEditor(item.text(0), pagePath)
+                self.pageTab.addTab(editor, item.text(0))
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
