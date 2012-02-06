@@ -116,7 +116,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
                 editor = textEditor.TextEditor(item.text(0), pagePath)
                 self.pageTab.addTab(editor, item.text(0))
 
-if __name__ == '__main__':
+def main():
     app = QApplication(sys.argv)
     QTextCodec.setCodecForTr(QTextCodec.codecForName('UTF-8')) # trUtf8 대신 사용
 

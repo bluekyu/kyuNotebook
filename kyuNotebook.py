@@ -1,1 +1,1 @@
-/home/bluekyu/Documents/Programming/MyProgram/kyuNotebook/src/mainWindow.py
+/home/hda2/Programming/MyProgram/kyuNotebook/src/run.py
