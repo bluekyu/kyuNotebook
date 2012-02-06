@@ -66,6 +66,18 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         if editor.CloseRequest():
             self.pageTab.removeTab(tabIndex)
 
+    @pyqtSignature('')
+    def on_pageSaveAction_triggered(self):
+        editor = self.pageTab.currentWidget()
+        if editor is not None:
+            editor.Save()
+
+    def on_allPageSaveAction_triggered(self):
+        for tabIndex in range(len(self.pageTab)):
+            editor = self.pageTab.widget(tabIndex)
+            if editor is not None:
+                editor.Save()
+
     ### 메소드 ###
     def closeEvent(self, event):
         settings = QSettings()

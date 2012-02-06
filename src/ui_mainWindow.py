@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../ui/mainWindow.ui'
 #
-# Created: Sun Feb  5 20:10:40 2012
+# Created: Mon Feb  6 19:15:46 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -73,8 +73,17 @@ class Ui_MainWindow(object):
         self.changeNoteDirAction = QtGui.QAction(MainWindow)
         self.changeNoteDirAction.setText(QtGui.QApplication.translate("MainWindow", "노트 폴더 변경", None, QtGui.QApplication.UnicodeUTF8))
         self.changeNoteDirAction.setObjectName(_fromUtf8("changeNoteDirAction"))
+        self.pageSaveAction = QtGui.QAction(MainWindow)
+        self.pageSaveAction.setText(QtGui.QApplication.translate("MainWindow", "현재 페이지 저장", None, QtGui.QApplication.UnicodeUTF8))
+        self.pageSaveAction.setObjectName(_fromUtf8("pageSaveAction"))
+        self.allPageSaveAction = QtGui.QAction(MainWindow)
+        self.allPageSaveAction.setText(QtGui.QApplication.translate("MainWindow", "모든 페이지 저장", None, QtGui.QApplication.UnicodeUTF8))
+        self.allPageSaveAction.setObjectName(_fromUtf8("allPageSaveAction"))
         self.fileMenu.addAction(self.newNoteAction)
         self.fileMenu.addAction(self.newPageAction)
+        self.fileMenu.addSeparator()
+        self.fileMenu.addAction(self.pageSaveAction)
+        self.fileMenu.addAction(self.allPageSaveAction)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.changeNoteDirAction)
         self.fileMenu.addSeparator()
@@ -85,6 +94,8 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.helpMenu.menuAction())
         self.fileToolBar.addAction(self.newNoteAction)
         self.fileToolBar.addAction(self.newPageAction)
+        self.fileToolBar.addSeparator()
+        self.fileToolBar.addAction(self.pageSaveAction)
 
         self.retranslateUi(MainWindow)
         self.pageTab.setCurrentIndex(-1)

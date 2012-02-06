@@ -7,9 +7,9 @@ class TextEditor(QTextEdit):
     def __init__(self, pageTitle='', pagePath=None, parent=None):
         super().__init__(parent)
 
-        self.pagePath = pagePath
-        self.pageTitle = pageTitle
         self.changed = False
+        self.pagePath = pagePath
+        self.setDocumentTitle(pageTitle)
 
         self.connect(self, SIGNAL('textChanged()'), self.Changed)
 
@@ -19,7 +19,8 @@ class TextEditor(QTextEdit):
     def CloseRequest(self):
         if self.changed:
             answer = QMessageBox.question(self, self.tr('페이지 저장'), 
-                self.tr('"{0}" 페이지를 저장하시겠습니까?').format(self.pageTitle),
+                self.tr('"{0}" 페이지를 저장하시겠습니까?').format(
+                    self.documentTitle()),
                 QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
 
             if answer == QMessageBox.Cancel:
@@ -33,3 +34,4 @@ class TextEditor(QTextEdit):
         pageFile = open(self.pagePath, 'w')
         pageFile.write(self.toHtml())
         pageFile.close()
+        self.changed = False
