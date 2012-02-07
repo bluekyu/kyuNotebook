@@ -46,6 +46,7 @@
     <addaction name="newNoteAction"/>
     <addaction name="newPageAction"/>
     <addaction name="separator"/>
+    <addaction name="openPageAction"/>
     <addaction name="pageSaveAction"/>
     <addaction name="allPageSaveAction"/>
     <addaction name="separator"/>
@@ -57,6 +58,7 @@
     <property name="title">
      <string>편집</string>
     </property>
+    <addaction name="titleChangeAction"/>
    </widget>
    <widget class="QMenu" name="toolMenu">
     <property name="title">
@@ -87,6 +89,7 @@
    <addaction name="newNoteAction"/>
    <addaction name="newPageAction"/>
    <addaction name="separator"/>
+   <addaction name="openPageAction"/>
    <addaction name="pageSaveAction"/>
   </widget>
   <widget class="QDockWidget" name="noteTreeDockWidget">
@@ -132,6 +135,16 @@
   <action name="allPageSaveAction">
    <property name="text">
     <string>모든 페이지 저장</string>
+   </property>
+  </action>
+  <action name="titleChangeAction">
+   <property name="text">
+    <string>이름 바꾸기</string>
+   </property>
+  </action>
+  <action name="openPageAction">
+   <property name="text">
+    <string>페이지 열기</string>
    </property>
   </action>
  </widget>

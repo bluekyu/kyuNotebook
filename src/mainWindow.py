@@ -20,7 +20,9 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         super().__init__(parent)
         self.setupUi(self)
         self.fileManager = fileManager.FileManager(self)
-        self.noteTree = noteTreeWidget.NoteTreeWidget(self)
+
+        noteTreeAction = [self.openPageAction, self.titleChangeAction]
+        self.noteTree = noteTreeWidget.NoteTreeWidget(noteTreeAction, self)
         self.noteTreeDockWidget.setWidget(self.noteTree)
 
         self.connect(self.noteTree,
@@ -28,8 +30,8 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
             self.NoteTreeActionEnabled)
 
         self.connect(self.noteTree,
-            SIGNAL('itemDoubleClicked(QTreeWidgetItem*, int)'),
-            self.OpenPage)
+            SIGNAL('itemChanged(QTreeWidgetItem*, int)'),
+            self.TitleChanged)
 
         ### 설정 복원 ###
         settings = QSettings()
@@ -84,8 +86,34 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
             if editor is not None:
                 editor.Save()
 
+    @pyqtSignature('')
+    def on_titleChangeAction_triggered(self):
+        self.noteTree.EditTitle()
+
+    @pyqtSignature('')
+    def on_openPageAction_triggered(self):
+        item = self.noteTree.currentItem()
+        if item.type() == self.noteTree.PAGE_TYPE:
+            pathList = self.noteTree.GetItemPathList(item)
+            pagePath = self.fileManager.AbsoluteFilePath(*pathList)
+            for tabIndex in range(len(self.pageTab)):
+                if self.pageTab.widget(tabIndex).pagePath == pagePath:
+                    self.pageTab.setCurrentIndex(tabIndex)
+                    break
+            else:
+                editor = textEditor.TextEditor(item.text(0), pagePath)
+                self.pageTab.addTab(editor, item.text(0))
+
+
     ### 메소드 ###
     def closeEvent(self, event):
+        for tabIndex in range(len(self.pageTab)):
+            editor = self.pageTab.widget(tabIndex)
+            if editor.changed:
+                if editor.CloseRequest() == False:
+                    event.ignore()
+                    return
+
         settings = QSettings()
         settings.setValue('lastNoteDirPath', self.fileManager.noteDirPath)
         settings.setValue('mainWindow.Geometry', self.saveGeometry())
@@ -104,17 +132,18 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         else:
             self.newNoteAction.setEnabled(True)
 
-    def OpenPage(self, item, column):
-        if item.type() == self.noteTree.PAGE_TYPE:
-            pathList = self.noteTree.GetItemPathList(item)
-            pagePath = self.fileManager.AbsoluteFilePath(*pathList)
-            for tabIndex in range(len(self.pageTab)):
-                if self.pageTab.widget(tabIndex).pagePath == pagePath:
-                    self.pageTab.setCurrentIndex(tabIndex)
-                    break
-            else:
-                editor = textEditor.TextEditor(item.text(0), pagePath)
-                self.pageTab.addTab(editor, item.text(0))
+    def TitleChanged(self, item, column):
+        if column != 0:
+            return
+        print('titleChanged 실행')
+        title, itemType= item.text(0), item.type()
+        pathList = self.noteTree.GetItemPathList(item)
+        self.fileManager.TitleChange(title, itemType, pathList)
+        pagePath = self.fileManager.AbsoluteFilePath(*pathList)
+        for tabIndex in range(len(self.pageTab)):
+            if self.pageTab.widget(tabIndex).pagePath == pagePath:
+                self.pageTab.setTabText(tabIndex, title)
+                break
 
 def main():
     app = QApplication(sys.argv)

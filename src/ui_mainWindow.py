@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../ui/mainWindow.ui'
 #
-# Created: Mon Feb  6 19:15:46 2012
+# Created: Wed Feb  8 01:02:30 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -79,15 +79,23 @@ class Ui_MainWindow(object):
         self.allPageSaveAction = QtGui.QAction(MainWindow)
         self.allPageSaveAction.setText(QtGui.QApplication.translate("MainWindow", "모든 페이지 저장", None, QtGui.QApplication.UnicodeUTF8))
         self.allPageSaveAction.setObjectName(_fromUtf8("allPageSaveAction"))
+        self.titleChangeAction = QtGui.QAction(MainWindow)
+        self.titleChangeAction.setText(QtGui.QApplication.translate("MainWindow", "이름 바꾸기", None, QtGui.QApplication.UnicodeUTF8))
+        self.titleChangeAction.setObjectName(_fromUtf8("titleChangeAction"))
+        self.openPageAction = QtGui.QAction(MainWindow)
+        self.openPageAction.setText(QtGui.QApplication.translate("MainWindow", "페이지 열기", None, QtGui.QApplication.UnicodeUTF8))
+        self.openPageAction.setObjectName(_fromUtf8("openPageAction"))
         self.fileMenu.addAction(self.newNoteAction)
         self.fileMenu.addAction(self.newPageAction)
         self.fileMenu.addSeparator()
+        self.fileMenu.addAction(self.openPageAction)
         self.fileMenu.addAction(self.pageSaveAction)
         self.fileMenu.addAction(self.allPageSaveAction)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.changeNoteDirAction)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.quitAction)
+        self.editMenu.addAction(self.titleChangeAction)
         self.menubar.addAction(self.fileMenu.menuAction())
         self.menubar.addAction(self.editMenu.menuAction())
         self.menubar.addAction(self.toolMenu.menuAction())
@@ -95,6 +103,7 @@ class Ui_MainWindow(object):
         self.fileToolBar.addAction(self.newNoteAction)
         self.fileToolBar.addAction(self.newPageAction)
         self.fileToolBar.addSeparator()
+        self.fileToolBar.addAction(self.openPageAction)
         self.fileToolBar.addAction(self.pageSaveAction)
 
         self.retranslateUi(MainWindow)
