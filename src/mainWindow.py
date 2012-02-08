@@ -141,8 +141,10 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         self.fileManager.TitleChange(title, pathList)
         pagePath = self.fileManager.AbsoluteFilePath(*pathList)
         for tabIndex in range(len(self.pageTab)):
-            if self.pageTab.widget(tabIndex).pagePath == pagePath:
+            editor = self.pageTab.widget(tabIndex)
+            if editor.pagePath == pagePath:
                 self.pageTab.setTabText(tabIndex, title)
+                editor.pageTitle = title
                 break
 
 def main():
