@@ -64,8 +64,8 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     @pyqtSignature('')
     def on_changeNoteDirAction_triggered(self):
-        self.fileManager.ChangeNoteDirPath()
-        self.fileManager.LoadNote(self.noteTree)
+        if self.fileManager.ChangeNoteDirPath(self):
+            self.fileManager.LoadNote(self.noteTree)
 
     @pyqtSignature('int')
     def on_pageTab_tabCloseRequested(self, tabIndex):

@@ -18,13 +18,13 @@ class FileManager(QObject):
     def AbsoluteFilePath(self, *pathList):
         return os.path.join(self.noteDirPath, *pathList)
 
-    def ChangeNoteDirPath(self):
-        newNoteDirPath = QFileDialog.getExistingDirectory(self, 
+    def ChangeNoteDirPath(self, parent):
+        newNoteDirPath = QFileDialog.getExistingDirectory(parent, 
                 self.tr('새 노트 폴더'),
-                oldNoteDirPath or os.path.expanduser('~'))
+                self.noteDirPath or os.path.expanduser('~'))
 
         if not newNoteDirPath:
-            return
+            return False
 
         # 기존 노트 복사
         try:
@@ -35,9 +35,10 @@ class FileManager(QObject):
                     self.tr('복사 오류!'),
                     self.tr('기존 노트의 복사 중에 오류가 발생하였습니다!\n'
                               '노트 폴더 변경을 중단합니다.'))
-            return
+            return False
 
         self.noteDirPath = newNoteDirPath
+        return True
 
     def CopyTree(self, src, dest):
         '''src 폴더 내용을 dest 폴더에 복사'''
