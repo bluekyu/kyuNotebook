@@ -49,7 +49,7 @@ class FileManager(QObject):
                 shutil.copy2(filePath, dest)
 
     def NewNote(self, pathList):
-        notePath = os.path.join(self.noteDirPath, *pathList)
+        notePath = self.AbsoluteFilePath(*pathList)
         noteName = self.MakeTempName('', '', notePath)
         newNotePath = os.path.join(notePath, noteName)
         os.mkdir(newNotePath, 0o755)
@@ -71,7 +71,7 @@ class FileManager(QObject):
         return noteName
 
     def NewPage(self, pathList):
-        notePath = os.path.join(self.noteDirPath, *pathList)
+        notePath = self.AbsoluteFilePath(*pathList)
         pageName = self.MakeTempName('', '.html', notePath)
         pagePath = os.path.join(notePath, pageName)
         open(pagePath, 'w').close()
@@ -125,5 +125,16 @@ class FileManager(QObject):
             rootElement = xml.ElementTree().parse(
                     os.path.join(xmlDir, self.CONFIG_FILE_NAME))
 
-    def TitleChange(self, title, itemType, pathList):
-        pass
+    def TitleChange(self, title, pathList):
+        itemPath = self.AbsoluteFilePath(*pathList)
+        name = os.path.basename(itemPath)
+        dirPath = os.path.dirname(itemPath)
+        xmlPath = os.path.join(dirPath, self.CONFIG_FILE_NAME)
+
+        configXml = xml.ElementTree()
+        rootElement = configXml.parse(xmlPath)
+        for element in rootElement.iter():
+            if element.get('name') == name:
+                element.set('title', title)
+                break
+        configXml.write(xmlPath, 'unicode', True)

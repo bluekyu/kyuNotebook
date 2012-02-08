@@ -31,7 +31,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
         self.connect(self.noteTree,
             SIGNAL('itemChanged(QTreeWidgetItem*, int)'),
-            self.TitleChanged)
+            self.TitleChange)
 
         ### 설정 복원 ###
         settings = QSettings()
@@ -132,13 +132,13 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         else:
             self.newNoteAction.setEnabled(True)
 
-    def TitleChanged(self, item, column):
+    def TitleChange(self, item, column):
         if column != 0:
             return
         print('titleChanged 실행')
-        title, itemType= item.text(0), item.type()
+        title = item.text(0)
         pathList = self.noteTree.GetItemPathList(item)
-        self.fileManager.TitleChange(title, itemType, pathList)
+        self.fileManager.TitleChange(title, pathList)
         pagePath = self.fileManager.AbsoluteFilePath(*pathList)
         for tabIndex in range(len(self.pageTab)):
             if self.pageTab.widget(tabIndex).pagePath == pagePath:
