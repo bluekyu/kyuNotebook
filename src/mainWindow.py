@@ -21,7 +21,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         self.setupUi(self)
         self.fileManager = fileManager.FileManager(self)
 
-        noteTreeAction = [self.openPageAction, self.titleChangeAction]
+        noteTreeAction = [self.openPageAction, self.changeTitleAction]
         self.noteTree = noteTreeWidget.NoteTreeWidget(noteTreeAction, self)
         self.noteTreeDockWidget.setWidget(self.noteTree)
 
@@ -31,7 +31,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
         self.connect(self.noteTree,
             SIGNAL('itemChanged(QTreeWidgetItem*, int)'),
-            self.TitleChange)
+            self.ChangeTitle)
 
         ### 설정 복원 ###
         settings = QSettings()
@@ -53,6 +53,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         key = self.fileManager.NewNote(
                 self.noteTree.GetCurrentItemPathList())
         self.noteTree.CurrentNewNote(key)
+        self.statusbar.showMessage(self.tr('새 노트 생성 완료'), 5000)
 
     @pyqtSignature('')
     def on_newPageAction_triggered(self):
@@ -61,11 +62,13 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         pageItem = self.noteTree.CurrentNewPage(key)
         editor = textEditor.TextEditor(pageItem.text(0), pagePath)
         self.pageTab.addTab(editor, pageItem.text(0))
+        self.statusbar.showMessage(self.tr('새 페이지 생성 완료'), 5000)
 
     @pyqtSignature('')
     def on_changeNoteDirAction_triggered(self):
         if self.fileManager.ChangeNoteDirPath(self):
             self.fileManager.LoadNote(self.noteTree)
+            self.statusbar.showMessage(self.tr('노트 폴더 변경 완료'), 5000)
 
     @pyqtSignature('int')
     def on_pageTab_tabCloseRequested(self, tabIndex):
@@ -74,20 +77,22 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
             self.pageTab.removeTab(tabIndex)
 
     @pyqtSignature('')
-    def on_pageSaveAction_triggered(self):
+    def on_savePageAction_triggered(self):
         editor = self.pageTab.currentWidget()
         if editor is not None:
             editor.Save()
+            self.statusbar.showMessage(self.tr('페이지 저장 완료'), 5000)
 
     @pyqtSignature('')
-    def on_allPageSaveAction_triggered(self):
+    def on_saveAllPageAction_triggered(self):
         for tabIndex in range(len(self.pageTab)):
             editor = self.pageTab.widget(tabIndex)
             if editor is not None:
                 editor.Save()
+        self.statusbar.showMessage(self.tr('모든 페이지 저장 완료'), 5000)
 
     @pyqtSignature('')
-    def on_titleChangeAction_triggered(self):
+    def on_changeTitleAction_triggered(self):
         self.noteTree.EditTitle()
 
     @pyqtSignature('')
@@ -122,23 +127,24 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     def NoteTreeActionEnabled(self, currentItem, previousItem):
         self.newNoteAction.setEnabled(False)
         self.newPageAction.setEnabled(False)
+        self.openPageAction.setEnabled(False)
  
         currentType = currentItem.type()
         if currentType == self.noteTree.NOTE_TYPE:
             self.newNoteAction.setEnabled(True)
             self.newPageAction.setEnabled(True)
         elif currentType == self.noteTree.PAGE_TYPE:
-            pass
+            self.openPageAction.setEnabled(True)
         else:
             self.newNoteAction.setEnabled(True)
 
-    def TitleChange(self, item, column):
+    def ChangeTitle(self, item, column):
         if column != 0:
             return
         print('titleChanged 실행')
         title = item.text(0)
         pathList = self.noteTree.GetItemPathList(item)
-        self.fileManager.TitleChange(title, pathList)
+        self.fileManager.ChangeTitle(title, pathList)
         pagePath = self.fileManager.AbsoluteFilePath(*pathList)
         for tabIndex in range(len(self.pageTab)):
             editor = self.pageTab.widget(tabIndex)
@@ -146,6 +152,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
                 self.pageTab.setTabText(tabIndex, title)
                 editor.pageTitle = title
                 break
+        self.statusbar.showMessage(self.tr('이름 변경 완료'), 5000)
 
 def main():
     app = QApplication(sys.argv)

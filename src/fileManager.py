@@ -126,7 +126,7 @@ class FileManager(QObject):
             rootElement = xml.ElementTree().parse(
                     os.path.join(xmlDir, self.CONFIG_FILE_NAME))
 
-    def TitleChange(self, title, pathList):
+    def ChangeTitle(self, title, pathList):
         itemPath = self.AbsoluteFilePath(*pathList)
         name = os.path.basename(itemPath)
         dirPath = os.path.dirname(itemPath)

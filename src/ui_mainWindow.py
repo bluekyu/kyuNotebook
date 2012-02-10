@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../ui/mainWindow.ui'
 #
-# Created: Wed Feb  8 01:02:30 2012
+# Created: Fri Feb 10 11:45:47 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -46,6 +46,7 @@ class Ui_MainWindow(object):
         self.helpMenu.setObjectName(_fromUtf8("helpMenu"))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(MainWindow)
+        self.statusbar.setSizeGripEnabled(True)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
         MainWindow.setStatusBar(self.statusbar)
         self.fileToolBar = QtGui.QToolBar(MainWindow)
@@ -73,15 +74,15 @@ class Ui_MainWindow(object):
         self.changeNoteDirAction = QtGui.QAction(MainWindow)
         self.changeNoteDirAction.setText(QtGui.QApplication.translate("MainWindow", "노트 폴더 변경", None, QtGui.QApplication.UnicodeUTF8))
         self.changeNoteDirAction.setObjectName(_fromUtf8("changeNoteDirAction"))
-        self.pageSaveAction = QtGui.QAction(MainWindow)
-        self.pageSaveAction.setText(QtGui.QApplication.translate("MainWindow", "현재 페이지 저장", None, QtGui.QApplication.UnicodeUTF8))
-        self.pageSaveAction.setObjectName(_fromUtf8("pageSaveAction"))
-        self.allPageSaveAction = QtGui.QAction(MainWindow)
-        self.allPageSaveAction.setText(QtGui.QApplication.translate("MainWindow", "모든 페이지 저장", None, QtGui.QApplication.UnicodeUTF8))
-        self.allPageSaveAction.setObjectName(_fromUtf8("allPageSaveAction"))
-        self.titleChangeAction = QtGui.QAction(MainWindow)
-        self.titleChangeAction.setText(QtGui.QApplication.translate("MainWindow", "이름 바꾸기", None, QtGui.QApplication.UnicodeUTF8))
-        self.titleChangeAction.setObjectName(_fromUtf8("titleChangeAction"))
+        self.savePageAction = QtGui.QAction(MainWindow)
+        self.savePageAction.setText(QtGui.QApplication.translate("MainWindow", "현재 페이지 저장", None, QtGui.QApplication.UnicodeUTF8))
+        self.savePageAction.setObjectName(_fromUtf8("savePageAction"))
+        self.saveAllPageAction = QtGui.QAction(MainWindow)
+        self.saveAllPageAction.setText(QtGui.QApplication.translate("MainWindow", "모든 페이지 저장", None, QtGui.QApplication.UnicodeUTF8))
+        self.saveAllPageAction.setObjectName(_fromUtf8("saveAllPageAction"))
+        self.changeTitleAction = QtGui.QAction(MainWindow)
+        self.changeTitleAction.setText(QtGui.QApplication.translate("MainWindow", "이름 바꾸기", None, QtGui.QApplication.UnicodeUTF8))
+        self.changeTitleAction.setObjectName(_fromUtf8("changeTitleAction"))
         self.openPageAction = QtGui.QAction(MainWindow)
         self.openPageAction.setText(QtGui.QApplication.translate("MainWindow", "페이지 열기", None, QtGui.QApplication.UnicodeUTF8))
         self.openPageAction.setObjectName(_fromUtf8("openPageAction"))
@@ -89,13 +90,13 @@ class Ui_MainWindow(object):
         self.fileMenu.addAction(self.newPageAction)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.openPageAction)
-        self.fileMenu.addAction(self.pageSaveAction)
-        self.fileMenu.addAction(self.allPageSaveAction)
+        self.fileMenu.addAction(self.savePageAction)
+        self.fileMenu.addAction(self.saveAllPageAction)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.changeNoteDirAction)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.quitAction)
-        self.editMenu.addAction(self.titleChangeAction)
+        self.editMenu.addAction(self.changeTitleAction)
         self.menubar.addAction(self.fileMenu.menuAction())
         self.menubar.addAction(self.editMenu.menuAction())
         self.menubar.addAction(self.toolMenu.menuAction())
@@ -104,7 +105,7 @@ class Ui_MainWindow(object):
         self.fileToolBar.addAction(self.newPageAction)
         self.fileToolBar.addSeparator()
         self.fileToolBar.addAction(self.openPageAction)
-        self.fileToolBar.addAction(self.pageSaveAction)
+        self.fileToolBar.addAction(self.savePageAction)
 
         self.retranslateUi(MainWindow)
         self.pageTab.setCurrentIndex(-1)
