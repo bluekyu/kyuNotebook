@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../ui/mainWindow.ui'
 #
-# Created: Fri Feb 10 11:45:47 2012
+# Created: Fri Feb 10 23:51:49 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -24,6 +24,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout = QtGui.QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.pageTab = QtGui.QTabWidget(self.centralwidget)
+        self.pageTab.setElideMode(QtCore.Qt.ElideNone)
+        self.pageTab.setDocumentMode(False)
         self.pageTab.setTabsClosable(True)
         self.pageTab.setMovable(True)
         self.pageTab.setObjectName(_fromUtf8("pageTab"))
@@ -84,12 +86,18 @@ class Ui_MainWindow(object):
         self.changeTitleAction.setText(QtGui.QApplication.translate("MainWindow", "이름 바꾸기", None, QtGui.QApplication.UnicodeUTF8))
         self.changeTitleAction.setObjectName(_fromUtf8("changeTitleAction"))
         self.openPageAction = QtGui.QAction(MainWindow)
+        self.openPageAction.setEnabled(False)
         self.openPageAction.setText(QtGui.QApplication.translate("MainWindow", "페이지 열기", None, QtGui.QApplication.UnicodeUTF8))
         self.openPageAction.setObjectName(_fromUtf8("openPageAction"))
+        self.removeNoteAction = QtGui.QAction(MainWindow)
+        self.removeNoteAction.setText(QtGui.QApplication.translate("MainWindow", "노트/페이지 제거", None, QtGui.QApplication.UnicodeUTF8))
+        self.removeNoteAction.setObjectName(_fromUtf8("removeNoteAction"))
         self.fileMenu.addAction(self.newNoteAction)
         self.fileMenu.addAction(self.newPageAction)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.openPageAction)
+        self.fileMenu.addAction(self.removeNoteAction)
+        self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.savePageAction)
         self.fileMenu.addAction(self.saveAllPageAction)
         self.fileMenu.addSeparator()

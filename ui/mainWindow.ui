@@ -20,6 +20,12 @@
       <property name="currentIndex">
        <number>-1</number>
       </property>
+      <property name="elideMode">
+       <enum>Qt::ElideNone</enum>
+      </property>
+      <property name="documentMode">
+       <bool>false</bool>
+      </property>
       <property name="tabsClosable">
        <bool>true</bool>
       </property>
@@ -47,6 +53,8 @@
     <addaction name="newPageAction"/>
     <addaction name="separator"/>
     <addaction name="openPageAction"/>
+    <addaction name="removeNoteAction"/>
+    <addaction name="separator"/>
     <addaction name="savePageAction"/>
     <addaction name="saveAllPageAction"/>
     <addaction name="separator"/>
@@ -147,8 +155,16 @@
    </property>
   </action>
   <action name="openPageAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>페이지 열기</string>
+   </property>
+  </action>
+  <action name="removeNoteAction">
+   <property name="text">
+    <string>노트/페이지 제거</string>
    </property>
   </action>
  </widget>

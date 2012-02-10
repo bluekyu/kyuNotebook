@@ -4,12 +4,13 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 class TextEditor(QTextEdit):
-    def __init__(self, pageTitle='', pagePath=None, parent=None):
+    def __init__(self, pageItem=None, pagePath=None, parent=None):
         super().__init__(parent)
 
         self.changed = False
         self.pagePath = pagePath
-        self.pageTitle = pageTitle
+        self.pageItem = pageItem
+        self.pageTitle = self.pageItem.text(0)
 
         self.connect(self, SIGNAL('textChanged()'), self.Changed)
 

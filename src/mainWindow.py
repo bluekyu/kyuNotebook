@@ -74,6 +74,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     def on_pageTab_tabCloseRequested(self, tabIndex):
         editor = self.pageTab.widget(tabIndex)
         if editor.CloseRequest():
+            self.noteTree.ClosePage(editor.pageItem)
             self.pageTab.removeTab(tabIndex)
 
     @pyqtSignature('')
@@ -99,16 +100,19 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     def on_openPageAction_triggered(self):
         item = self.noteTree.currentItem()
         if item.type() == self.noteTree.PAGE_TYPE:
-            pathList = self.noteTree.GetItemPathList(item)
-            pagePath = self.fileManager.AbsoluteFilePath(*pathList)
-            for tabIndex in range(len(self.pageTab)):
-                if self.pageTab.widget(tabIndex).pagePath == pagePath:
-                    self.pageTab.setCurrentIndex(tabIndex)
-                    break
+            editor = item.data(self.noteTree.EDITOR_DATA, Qt.UserRole)
+            if editor is not None:
+                self.pageTab.setCurrentIndex(self.pageTab.indexOf(editor))
             else:
-                editor = textEditor.TextEditor(item.text(0), pagePath)
+                pathList = self.noteTree.GetItemPathList(item)
+                pagePath = self.fileManager.AbsoluteFilePath(*pathList)
+                editor = textEditor.TextEditor(item, pagePath)
                 self.pageTab.addTab(editor, item.text(0))
+                self.noteTree.OpenPage(item, editor)
 
+    @pyqtSignature('')
+    def on_removeNoteAction_triggered(self):
+        pass
 
     ### 메소드 ###
     def closeEvent(self, event):
