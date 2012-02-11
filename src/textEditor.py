@@ -4,13 +4,13 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 class TextEditor(QTextEdit):
-    def __init__(self, pageItem=None, pagePath=None, parent=None):
+    def __init__(self, item=None, path=None, parent=None):
         super().__init__(parent)
 
         self.changed = False
-        self.pagePath = pagePath
-        self.pageItem = pageItem
-        self.pageTitle = self.pageItem.text(0)
+        self.path = path
+        self.item = item
+        self.title = self.item.GetTitle()
 
         self.connect(self, SIGNAL('textChanged()'), self.Changed)
 
@@ -23,7 +23,7 @@ class TextEditor(QTextEdit):
         if self.changed:
             answer = QMessageBox.question(self, self.tr('페이지 저장'), 
                 self.tr('"{0}" 페이지를 저장하시겠습니까?').format(
-                    self.pageTitle),
+                    self.title),
                 QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
 
             if answer == QMessageBox.Cancel:
@@ -34,14 +34,14 @@ class TextEditor(QTextEdit):
         return True
 
     def Load(self):
-        pageFile = open(self.pagePath, 'r')
+        pageFile = open(self.path, 'r')
         self.setHtml(pageFile.read())
         pageFile.close()
         self.changed = False
 
     def Save(self):
-        self.setDocumentTitle(self.pageTitle)
-        pageFile = open(self.pagePath, 'w')
+        self.setDocumentTitle(self.title)
+        pageFile = open(self.path, 'w')
         pageFile.write(self.toHtml())
         pageFile.close()
         self.changed = False
