@@ -10,7 +10,6 @@ class TextEditor(QTextEdit):
         self.changed = False
         self.path = path
         self.item = item
-        self.title = self.item.GetTitle()
 
         self.connect(self, SIGNAL('textChanged()'), self.Changed)
 
@@ -23,7 +22,7 @@ class TextEditor(QTextEdit):
         if self.changed:
             answer = QMessageBox.question(self, self.tr('페이지 저장'), 
                 self.tr('"{0}" 페이지를 저장하시겠습니까?').format(
-                    self.title),
+                    self.item.title),
                 QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
 
             if answer == QMessageBox.Cancel:
@@ -40,7 +39,7 @@ class TextEditor(QTextEdit):
         self.changed = False
 
     def Save(self):
-        self.setDocumentTitle(self.title)
+        self.setDocumentTitle(self.item.title)
         pageFile = open(self.path, 'w')
         pageFile.write(self.toHtml())
         pageFile.close()

@@ -36,6 +36,10 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
             SIGNAL('currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)'),
             self.NoteTreeActionEnabled)
 
+        self.connect(self.noteTree,
+            SIGNAL('itemChanged(QTreeWidgetItem*, int)'),
+            self.ChangeItem)
+
     ### 슬롯 ###
     @pyqtSignature('')
     def on_newNoteAction_triggered(self):
@@ -45,10 +49,9 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     @pyqtSignature('')
     def on_newPageAction_triggered(self):
         item = self.noteTree.NewPage()
-        title = item.GetTitle()
         path = self.noteTree.GetItemPath(item)
         item.editor = textEditor.TextEditor(item, path)
-        self.pageTab.addTab(item.editor, title)
+        self.pageTab.addTab(item.editor, item.title)
         self.statusbar.showMessage(self.tr('새 페이지 생성 완료'), 5000)
 
     @pyqtSignature('')
@@ -93,7 +96,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         else:
             path = self.noteTree.GetItemPath(item)
             item.editor = textEditor.TextEditor(item, path)
-            self.pageTab.addTab(item.editor, item.GetTitle())
+            self.pageTab.addTab(item.editor, item.title)
 
     @pyqtSignature('')
     def on_removeNoteAction_triggered(self):
@@ -126,14 +129,13 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         else:
             self.newNoteAction.setEnabled(True)
 
-    def ChangeTitle(self, item, column):
-        if item.IsTitleChanged():
-            title, path = self.noteTree.ChangeTitle(item)
-            if IsPage(item) and item.editor is not None:
+    def ChangeItem(self, item, column):
+        if column == 0 and item.IsTitleChanged():
+            path = self.noteTree.ChangeTitle(item)
+            if self.noteTree.IsPage(item) and item.editor is not None:
                 tabIndex = self.pageTab.indexOf(item.editor)
                 if tabIndex != -1:
-                    self.pageTab.setTabText(tabIndex, title)
-
+                    self.pageTab.setTabText(tabIndex, item.title)
             self.statusbar.showMessage(self.tr('이름 변경 완료'), 5000)
 
 def main():

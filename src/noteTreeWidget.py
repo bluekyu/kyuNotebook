@@ -56,7 +56,6 @@ class NoteTreeWidget(QTreeWidget):
                     xmlPath, 'unicode', True)
         rootElement = xml.ElementTree().parse(xmlPath)
         rootItem = CommonItem(self, [self.tr('노트 폴더')])
-#        rootItem.SetTitle(self.tr('노트 폴더'))
 
         noteList = []
         while True:
@@ -101,14 +100,12 @@ class NoteTreeWidget(QTreeWidget):
   
     def AddNote(self, root, title, key):
         item = NoteItem(root, [title])
-#        item.SetTitle(title)
         item.key = key
 
         return item
 
     def AddPage(self, root, title, key):
         item = PageItem(root, [title])
-#        item.SetTitle(title)
         item.key = key
 
         return item
@@ -171,17 +168,16 @@ class NoteTreeWidget(QTreeWidget):
         key = os.path.basename(itemPath)
         dirPath = os.path.dirname(itemPath)
         xmlPath = os.path.join(dirPath, self.configFileName)
-        title = item.GetTitle()
 
         configXml = xml.ElementTree()
         rootElement = configXml.parse(xmlPath)
         for element in rootElement.iter():
             if element.get('key') == key:
-                element.set('title', title)
+                element.set('title', item.title)
                 break
         configXml.write(xmlPath, 'unicode', True)
 
-        return title, itemPath
+        return itemPath
 
     def GetItemPath(self, item):
         keyList = []

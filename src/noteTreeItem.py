@@ -6,21 +6,18 @@ from PyQt4.QtGui import *
 class CommonItem(QTreeWidgetItem):
     def __init__(self, *args, **kargs):
         super().__init__(*args, **kargs)
+        self.title = self.text(0)
+        self.key = ''
+
         self.setFlags(self.flags() | Qt.ItemIsEditable)
         self.setExpanded(True)
 
-        self.key = ''
-
-    def GetTitle(self):
-        return self.text(0)
-#        self.title = ''
-#
-#    def SetTitle(self, title):
-#        self.title = title
-#        self.setText(0, title)
-#
-#    def IsTitleChanged(self):
-#        return self.title != self.text(0)
+    def IsTitleChanged(self):
+        if self.title == self.text(0):
+            return False
+        else:
+            self.title = self.text(0)
+            return True
 
 class NoteItem(CommonItem):
     def __init__(self, *args, **kargs):
