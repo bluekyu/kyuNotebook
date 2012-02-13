@@ -154,9 +154,33 @@ class NoteTreeWidget(QTreeWidget):
     def EditTitle(self):
         self.editItem(self.currentItem())
 
-    def RemoveNote(self):
-        pass
+    def RemoveItem(self, item):
+        itemPath = self.GetItemPath(item)
+        key = os.path.basename(itemPath)
+        dirPath = os.path.dirname(itemPath)
+        xmlPath = os.path.join(dirPath, self.configFileName)
+        configXml = xml.ElementTree()
+        rootElement = configXml.parse(xmlPath)
+        try:
+            if self.IsPage(item):
+                os.remove(itemPath)
+                for element in rootElement.iter('page'):
+                    if element.get('key') == key:
+                        rootElement.remove(element)
+            else:
+                shutil.rmtree(itemPath)
+                for element in rootElement.iter('subnote'):
+                    if element.get('key') == key:
+                        rootElement.remove(element)
+            configXml.write(xmlPath, 'unicode', True)
+        except:
+            QMessageBox.critical(self, self.tr('파일 삭제 오류!'),
+                    self.tr('파일을 삭제하는 중에 오류가 발생하였습니다!'))
+            return
 
+        parent = item.parent()
+        parent.takeChild(parent.indexOfChild(item))
+        
     def IsNote(self, item):
         return isinstance(item, NoteItem)
 

@@ -27,7 +27,8 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         self.restoreState(settings.value('mainWindow.State',
             QByteArray()))
 
-        noteTreeAction = [self.openPageAction, self.changeTitleAction]
+        noteTreeAction = [self.openPageAction, self.changeTitleAction, 
+                self.removeItemAction]
         self.noteTree = noteTreeWidget.NoteTreeWidget(
                             noteDirPath, noteTreeAction, self)
         self.noteTreeDockWidget.setWidget(self.noteTree)
@@ -99,8 +100,42 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
             self.pageTab.addTab(item.editor, item.title)
 
     @pyqtSignature('')
-    def on_removeNoteAction_triggered(self):
-        pass
+    def on_removeItemAction_triggered(self):
+        item = self.noteTree.currentItem()
+        if self.noteTree.IsPage(item):
+            if QMessageBox.question(self, self.tr('페이지 삭제'),
+                self.tr('현재 페이지를 정말 삭제하시겠습니까?'),
+                QMessageBox.Yes | QMessageBox.No, QMessageBox.No) == \
+                QMessageBox.No:
+                return
+
+            if item.editor is not None:
+                QMessageBox.warning(self, self.tr('페이지 열림'),
+                    self.tr('삭제하려는 페이지가 열려 있습니다.\n'
+                            '페이지를 닫은 후에 삭제하십시오.'))
+                self.pageTab.setCurrentIndex(self.pageTab.indexOf(item.editor))
+                return
+        elif self.noteTree.IsNote(item):
+            if QMessageBox.question(self, self.tr('노트 삭제'),
+                self.tr('현재 노트 및 노트의 다른 항목 '
+                    '모두를 정말 삭제하시겠습니까?'),
+                QMessageBox.Yes | QMessageBox.No, QMessageBox.No) == \
+                QMessageBox.No:
+                return
+            path = self.noteTree.GetItemPath(item)
+            for tabIndex in range(len(self.pageTab)):
+                editor = self.pageTab.widget(tabIndex)
+                if editor.path.startswith(path, 0):
+                    QMessageBox.warning(self, self.tr('노트 열림'), self.tr(
+                        '삭제하려는 노트에 있는 페이지가 열려 있습니다.\n'
+                        '페이지를 닫은 후에 삭제하십시오.'))
+                    self.pageTab.setCurrentIndex(tabIndex)
+                    return
+        else:
+            return
+
+        self.noteTree.RemoveItem(item)
+        self.statusbar.showMessage(self.tr('삭제 완료'), 5000)
 
     ### 메소드 ###
     def closeEvent(self, event):

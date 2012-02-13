@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../ui/mainWindow.ui'
 #
-# Created: Fri Feb 10 23:51:49 2012
+# Created: Mon Feb 13 22:16:48 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -52,7 +52,7 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
         MainWindow.setStatusBar(self.statusbar)
         self.fileToolBar = QtGui.QToolBar(MainWindow)
-        self.fileToolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
+        self.fileToolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "도구모음", None, QtGui.QApplication.UnicodeUTF8))
         self.fileToolBar.setObjectName(_fromUtf8("fileToolBar"))
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.fileToolBar)
         self.noteTreeDockWidget = QtGui.QDockWidget(MainWindow)
@@ -89,14 +89,14 @@ class Ui_MainWindow(object):
         self.openPageAction.setEnabled(False)
         self.openPageAction.setText(QtGui.QApplication.translate("MainWindow", "페이지 열기", None, QtGui.QApplication.UnicodeUTF8))
         self.openPageAction.setObjectName(_fromUtf8("openPageAction"))
-        self.removeNoteAction = QtGui.QAction(MainWindow)
-        self.removeNoteAction.setText(QtGui.QApplication.translate("MainWindow", "노트/페이지 제거", None, QtGui.QApplication.UnicodeUTF8))
-        self.removeNoteAction.setObjectName(_fromUtf8("removeNoteAction"))
+        self.removeItemAction = QtGui.QAction(MainWindow)
+        self.removeItemAction.setText(QtGui.QApplication.translate("MainWindow", "노트/페이지 제거", None, QtGui.QApplication.UnicodeUTF8))
+        self.removeItemAction.setObjectName(_fromUtf8("removeItemAction"))
         self.fileMenu.addAction(self.newNoteAction)
         self.fileMenu.addAction(self.newPageAction)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.openPageAction)
-        self.fileMenu.addAction(self.removeNoteAction)
+        self.fileMenu.addAction(self.removeItemAction)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.savePageAction)
         self.fileMenu.addAction(self.saveAllPageAction)
