@@ -2,12 +2,11 @@
 
 '''메인 윈도우의 실행을 담당하는 파일'''
 
-import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-import ui_mainWindow
-import noteTreeWidget
-import textEditor
+from kyuNotebook import ui_mainWindow
+from kyuNotebook import noteTreeWidget
+from kyuNotebook import textEditor
 
 __version__ = '0.1.0'
 __program_name__ = 'kyuNotebook'
@@ -206,15 +205,3 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         self.openPageAction.setShortcuts(QKeySequence.Open)
         self.savePageAction.setShortcuts(QKeySequence.Save)
         self.closeCurrentPageAction.setShortcuts(QKeySequence.Close)
-
-def main():
-    app = QApplication(sys.argv)
-    QTextCodec.setCodecForTr(QTextCodec.codecForName('UTF-8')) # trUtf8 대신 사용
-
-    app.setOrganizationName('bluekyu')
-    app.setOrganizationDomain('bluekyu.me')
-    app.setApplicationName(__program_name__)
-
-    mainWindow = MainWindow()
-    mainWindow.show()
-    app.exec_()

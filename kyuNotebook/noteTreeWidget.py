@@ -6,7 +6,7 @@ import os, shutil, tempfile
 import xml.etree.ElementTree as xml
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from noteTreeItem import *
+from kyuNotebook.noteTreeItem import *
 
 ### 파일 처리 함수 ###
 def MakeKey(prefix, suffix, dirPath):
