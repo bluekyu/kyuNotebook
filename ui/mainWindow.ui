@@ -72,6 +72,7 @@
     <addaction name="separator"/>
     <addaction name="changeNoteDirAction"/>
     <addaction name="separator"/>
+    <addaction name="closeCurrentPageAction"/>
     <addaction name="quitAction"/>
    </widget>
    <widget class="QMenu" name="editMenu">
@@ -129,6 +130,12 @@
    <property name="text">
     <string>종료</string>
    </property>
+   <property name="toolTip">
+    <string>프로그램을 종료합니다.</string>
+   </property>
+   <property name="statusTip">
+    <string>프로그램을 종료합니다.</string>
+   </property>
   </action>
   <action name="newPageAction">
    <property name="enabled">
@@ -136,6 +143,12 @@
    </property>
    <property name="text">
     <string>새 페이지</string>
+   </property>
+   <property name="toolTip">
+    <string>새 페이지를 생성합니다.</string>
+   </property>
+   <property name="statusTip">
+    <string>새 페이지를 생성합니다.</string>
    </property>
   </action>
   <action name="newNoteAction">
@@ -145,25 +158,61 @@
    <property name="text">
     <string>새 노트</string>
    </property>
+   <property name="toolTip">
+    <string>새 노트를 생성합니다.</string>
+   </property>
+   <property name="statusTip">
+    <string>새 노트를 생성합니다.</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+Shift+N</string>
+   </property>
   </action>
   <action name="changeNoteDirAction">
    <property name="text">
     <string>노트 폴더 변경</string>
+   </property>
+   <property name="toolTip">
+    <string>노트를 저장하는 폴더를 변경합니다.</string>
+   </property>
+   <property name="statusTip">
+    <string>노트를 저장하는 폴더를 변경합니다.</string>
    </property>
   </action>
   <action name="savePageAction">
    <property name="text">
     <string>현재 페이지 저장</string>
    </property>
+   <property name="toolTip">
+    <string>현재 열린 페이지를 저장합니다.</string>
+   </property>
+   <property name="statusTip">
+    <string>현재 열린 페이지를 저장합니다.</string>
+   </property>
   </action>
   <action name="saveAllPageAction">
    <property name="text">
     <string>모든 페이지 저장</string>
    </property>
+   <property name="toolTip">
+    <string>현재 열려있는 모든 페이지를 저장합니다.</string>
+   </property>
+   <property name="statusTip">
+    <string>현재 열려있는 모든 페이지를 저장합니다.</string>
+   </property>
   </action>
   <action name="changeTitleAction">
    <property name="text">
     <string>이름 바꾸기</string>
+   </property>
+   <property name="toolTip">
+    <string>노트나 페이지의 이름을 변경합니다.</string>
+   </property>
+   <property name="statusTip">
+    <string>노트나 페이지의 이름을 변경합니다.</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">F2</string>
    </property>
   </action>
   <action name="openPageAction">
@@ -173,10 +222,33 @@
    <property name="text">
     <string>페이지 열기</string>
    </property>
+   <property name="toolTip">
+    <string>선택한 페이지를 엽니다.</string>
+   </property>
+   <property name="statusTip">
+    <string>선택한 페이지를 엽니다.</string>
+   </property>
   </action>
   <action name="removeItemAction">
    <property name="text">
     <string>노트/페이지 제거</string>
+   </property>
+   <property name="toolTip">
+    <string>선택한 노트나 페이지를 제거합니다.</string>
+   </property>
+   <property name="statusTip">
+    <string>선택한 노트나 페이지를 제거합니다.</string>
+   </property>
+  </action>
+  <action name="closeCurrentPageAction">
+   <property name="text">
+    <string>현재 페이지 닫기</string>
+   </property>
+   <property name="toolTip">
+    <string>현재 열린 페이지를 닫습니다.</string>
+   </property>
+   <property name="statusTip">
+    <string>현재 열린 페이지를 닫습니다.</string>
    </property>
   </action>
  </widget>

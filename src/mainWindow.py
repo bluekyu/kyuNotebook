@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+'''메인 윈도우의 실행을 담당하는 파일'''
+
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -18,6 +20,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
+        self.KeySetting()
 
         ### 설정 복원 ###
         settings = QSettings()
@@ -44,11 +47,13 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     ### 슬롯 ###
     @pyqtSignature('')
     def on_newNoteAction_triggered(self):
+        '''새 노트를 생성하는 슬롯'''
         self.noteTree.NewNote()
         self.statusbar.showMessage(self.tr('새 노트 생성 완료'), 5000)
 
     @pyqtSignature('')
     def on_newPageAction_triggered(self):
+        '''새 페이지를 생성하는 슬롯'''
         item = self.noteTree.NewPage()
         path = self.noteTree.GetItemPath(item)
         item.editor = textEditor.TextEditor(item, path)
@@ -57,6 +62,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     @pyqtSignature('')
     def on_changeNoteDirAction_triggered(self):
+        '''노트 폴더 경로를 변경하는 슬롯'''
         if self.pageTab.count() != 0:
             QMessageBox.information(self, self.tr('페이지 열림'),
                     self.tr('먼저 열려있는 페이지를 모두 닫아주십시오!'))
@@ -67,13 +73,22 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     @pyqtSignature('int')
     def on_pageTab_tabCloseRequested(self, tabIndex):
+        '''탭 위젯에서 닫기 단추가 눌렸을 시 동작하는 슬롯'''
         editor = self.pageTab.widget(tabIndex)
         if editor.CloseRequest():
             editor.item.editor = None
             self.pageTab.removeTab(tabIndex)
 
     @pyqtSignature('')
+    def on_closeCurrentPageAction_triggered(self):
+        '''현재 페이지를 닫는 요청 시에 동작하는 슬롯'''
+        tabIndex = self.pageTab.currentIndex()
+        if tabIndex >= 0:
+            self.on_pageTab_tabCloseRequested(tabIndex)
+
+    @pyqtSignature('')
     def on_savePageAction_triggered(self):
+        '''현재 페이지를 저장하는 슬롯'''
         editor = self.pageTab.currentWidget()
         if editor is not None:
             editor.Save()
@@ -81,6 +96,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     @pyqtSignature('')
     def on_saveAllPageAction_triggered(self):
+        '''현재 열린 모든 페이지를 저장하는 슬롯'''
         for tabIndex in range(len(self.pageTab)):
             editor = self.pageTab.widget(tabIndex)
             if editor is not None:
@@ -89,10 +105,12 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     @pyqtSignature('')
     def on_changeTitleAction_triggered(self):
+        '''현재 선택한 아이템에 대한 제목을 변경하는 슬롯'''
         self.noteTree.EditTitle()
 
     @pyqtSignature('')
     def on_openPageAction_triggered(self):
+        '''현재 선택한 페이지를 탭에 여는 슬롯'''
         item = self.noteTree.GetCurrentPage()
         if item is None:
             return
@@ -105,6 +123,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     @pyqtSignature('')
     def on_removeItemAction_triggered(self):
+        '''현재 선택한 아이템을 제거하는 슬롯'''
         item = self.noteTree.currentItem()
         if self.noteTree.IsPage(item):
             if QMessageBox.question(self, self.tr('페이지 삭제'),
@@ -143,6 +162,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     ### 메소드 ###
     def closeEvent(self, event):
+        '''프로그램 종료 이벤트'''
         for tabIndex in range(len(self.pageTab)):
             editor = self.pageTab.widget(tabIndex)
             if editor.changed:
@@ -156,6 +176,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         settings.setValue('mainWindow.State', self.saveState())
 
     def NoteTreeActionEnabled(self, currentItem, previousItem):
+        '''선택하는 아이템이 변경될 시에 액션들에 대한 활성화 여부를 조절'''
         self.newNoteAction.setEnabled(False)
         self.newPageAction.setEnabled(False)
         self.openPageAction.setEnabled(False)
@@ -169,6 +190,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
             self.newNoteAction.setEnabled(True)
 
     def ChangeItem(self, item, column):
+        '''아이템에 대한 정보가 변경되었을 시에 실행되는 슬롯'''
         if column == 0 and item.IsTitleChanged():
             path = self.noteTree.ChangeTitle(item)
             if self.noteTree.IsPage(item) and item.editor is not None:
@@ -176,6 +198,14 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
                 if tabIndex != -1:
                     self.pageTab.setTabText(tabIndex, item.title)
             self.statusbar.showMessage(self.tr('이름 변경 완료'), 5000)
+
+    def KeySetting(self):
+        '''단축키 설정하는 메소드'''
+        self.quitAction.setShortcuts(QKeySequence.Quit)
+        self.newPageAction.setShortcuts(QKeySequence.New)
+        self.openPageAction.setShortcuts(QKeySequence.Open)
+        self.savePageAction.setShortcuts(QKeySequence.Save)
+        self.closeCurrentPageAction.setShortcuts(QKeySequence.Close)
 
 def main():
     app = QApplication(sys.argv)
