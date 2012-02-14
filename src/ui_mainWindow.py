@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../ui/mainWindow.ui'
 #
-# Created: Mon Feb 13 22:16:48 2012
+# Created: Tue Feb 14 18:07:38 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -22,6 +22,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.centralwidget)
+        self.horizontalLayout.setContentsMargins(3, 0, 6, 0)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.pageTab = QtGui.QTabWidget(self.centralwidget)
         self.pageTab.setElideMode(QtCore.Qt.ElideNone)

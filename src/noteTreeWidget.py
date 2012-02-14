@@ -53,7 +53,8 @@ class NoteTreeWidget(QTreeWidget):
         # xml 새로 생성
         if not os.path.exists(xmlPath):
             xml.ElementTree(xml.Element('note')).write(
-                    xmlPath, 'unicode', True)
+                    xmlPath, 'UTF-8', True)
+        self.clear()
         rootElement = xml.ElementTree().parse(xmlPath)
         rootItem = CommonItem(self, [self.tr('노트 폴더')])
 
@@ -84,6 +85,12 @@ class NoteTreeWidget(QTreeWidget):
         if not newNoteDirPath:
             return False
 
+        if os.listdir(newNoteDirPath) != []:
+            QMessageBox.critical(self, self.tr('폴더가 비어있지 않음!'),
+                    self.tr('폴더가 비어 있지 않습니다!\n'
+                    '비어있는 폴더를 생성해주십시오!'))
+            return False
+
         # 기존 노트 복사
         try:
             if os.path.exists(self.noteDirPath):
@@ -91,7 +98,7 @@ class NoteTreeWidget(QTreeWidget):
         except OSError:
             QMessageBox.critical(self,
                     self.tr('복사 오류!'),
-                    self.tr('기존 노트의 복사 중에 오류가 발생하였습니다!\n'
+                    self.tr('기존 노트의 복사 중에 다음 오류가 발생하였습니다!\n'
                               '노트 폴더 변경을 중단합니다.'))
             return False
 
@@ -124,12 +131,12 @@ class NoteTreeWidget(QTreeWidget):
         rootElement = configXml.parse(xmlPath)
         newElement = xml.Element('subnote', {'title': title, 'key': key})
         rootElement.append(newElement)
-        configXml.write(xmlPath, 'unicode', True)
+        configXml.write(xmlPath, 'UTF-8', True)
 
         # xml 추가
         xmlPath = os.path.join(newNotePath, self.configFileName)
         xml.ElementTree(xml.Element('note')).write(
-                xmlPath, 'unicode', True)
+                xmlPath, 'UTF-8', True)
 
         return self.AddNote(currentItem, title, key)
 
@@ -147,7 +154,7 @@ class NoteTreeWidget(QTreeWidget):
         rootElement = configXml.parse(xmlPath)
         newElement = xml.Element('page', {'title': title, 'key': key})
         rootElement.append(newElement)
-        configXml.write(xmlPath, 'unicode', True)
+        configXml.write(xmlPath, 'UTF-8', True)
 
         return self.AddPage(currentItem, title, key)
 
@@ -172,7 +179,7 @@ class NoteTreeWidget(QTreeWidget):
                 for element in rootElement.iter('subnote'):
                     if element.get('key') == key:
                         rootElement.remove(element)
-            configXml.write(xmlPath, 'unicode', True)
+            configXml.write(xmlPath, 'UTF-8', True)
         except:
             QMessageBox.critical(self, self.tr('파일 삭제 오류!'),
                     self.tr('파일을 삭제하는 중에 오류가 발생하였습니다!'))
@@ -199,7 +206,7 @@ class NoteTreeWidget(QTreeWidget):
             if element.get('key') == key:
                 element.set('title', item.title)
                 break
-        configXml.write(xmlPath, 'unicode', True)
+        configXml.write(xmlPath, 'UTF-8', True)
 
         return itemPath
 

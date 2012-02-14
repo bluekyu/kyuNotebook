@@ -7,10 +7,10 @@ import ui_mainWindow
 import noteTreeWidget
 import textEditor
 
-__version__ = '0.0.1'
+__version__ = '0.1.0'
 __program_name__ = 'kyuNotebook'
 __author__ = 'YoungUk Kim'
-__date__ = '02.02.2012'
+__date__ = '02.14.2012'
 
 class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     '''메인 윈도우 클래스'''
@@ -57,8 +57,12 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     @pyqtSignature('')
     def on_changeNoteDirAction_triggered(self):
-        if self.noteTree.ChangeNoteDirPath(self):
-            self.noteTree.LoadNote(self.noteTree)
+        if self.pageTab.count() != 0:
+            QMessageBox.information(self, self.tr('페이지 열림'),
+                    self.tr('먼저 열려있는 페이지를 모두 닫아주십시오!'))
+            return
+        if self.noteTree.ChangeNoteDirPath():
+            self.noteTree.LoadNote()
             self.statusbar.showMessage(self.tr('노트 폴더 변경 완료'), 5000)
 
     @pyqtSignature('int')

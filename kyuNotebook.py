@@ -1,1 +1,0 @@
-/home/hda2/Programming/MyProgram/kyuNotebook/src/run.py
