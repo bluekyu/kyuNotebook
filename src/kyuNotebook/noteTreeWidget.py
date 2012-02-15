@@ -2,7 +2,7 @@
 
 '''트리 위젯에 대한 정보 및 파일 관리를 담당하는 파일'''
 
-import os, shutil, tempfile
+import os, shutil, tempfile, logging
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from kyuNotebook.noteTreeItem import CommonItem, NoteItem, PageItem
@@ -38,6 +38,7 @@ class NoteTreeWidget(QTreeWidget):
         self.addActions(contextAction)
 
         self.noteDirPath = noteDirPath
+        self.logger = logging.getLogger('noteTreeWidget.NoteTreeWidget')
         self.LoadNote()
 
     def LoadNote(self):
@@ -56,22 +57,27 @@ class NoteTreeWidget(QTreeWidget):
         rootItem = CommonItem(self, [self.tr('노트 폴더')])
 
         noteList = []
-        while True:
-            for note in config.LoadNote():
-                item = self.AddNote(
-                        rootItem, note['title'], note['key'])
-                noteList.insert(0, (item, 
-                    os.path.join(noteDir, note['key'])))
+        try:
+            while True:
+                for note in config.LoadNote():
+                    item = self.AddNote(
+                            rootItem, note['title'], note['key'])
+                    noteList.insert(0, (item, 
+                        os.path.join(noteDir, note['key'])))
 
-            for page in config.LoadPage():
-                self.AddPage(
-                        rootItem, page['title'], page['key'])
+                for page in config.LoadPage():
+                    self.AddPage(
+                            rootItem, page['title'], page['key'])
 
-            if noteList == []:
-                break
+                if noteList == []:
+                    break
 
-            rootItem, noteDir = noteList.pop()
-            config = ConfigManager(noteDir)
+                rootItem, noteDir = noteList.pop()
+                config = ConfigManager(noteDir)
+        except Exception as err:
+            self.logger.error('노트 불러오는 중에 오류 - ' + str(err))
+            QMessageBox.critical(self, self.tr('노트 불러오기 실패!'),
+                    self.tr('노트를 불러오는 중에 오류가 발생하였습니다!'))
 
     def ChangeNoteDirPath(self):
         '''노트 폴더 경로를 변경하는 메소드'''
@@ -83,7 +89,7 @@ class NoteTreeWidget(QTreeWidget):
             return False
 
         if os.listdir(newNoteDirPath) != []:
-            QMessageBox.critical(self, self.tr('폴더가 비어있지 않음!'),
+            QMessageBox.warning(self, self.tr('폴더가 비어있지 않음!'),
                     self.tr('폴더가 비어 있지 않습니다!\n'
                     '비어있는 폴더를 생성해주십시오!'))
             return False
@@ -92,7 +98,8 @@ class NoteTreeWidget(QTreeWidget):
         try:
             if os.path.exists(self.noteDirPath):
                 CopyTree(self.noteDirPath, newNoteDirPath)
-        except OSError:
+        except OSError as err:
+            self.logger.error('노트 폴더 복사 부분 오류 - ' + str(err))
             QMessageBox.critical(self,
                     self.tr('복사 오류!'),
                     self.tr('기존 노트의 복사 중에 다음 오류가 발생하였습니다!\n'
@@ -165,7 +172,8 @@ class NoteTreeWidget(QTreeWidget):
                 shutil.rmtree(itemPath)
                 config.RemoveNote(key)
             config.Write()
-        except:
+        except Exception as err:
+            self.logger.error('파일 삭제 중에 오류 - ' + str(err))
             QMessageBox.critical(self, self.tr('파일 삭제 오류!'),
                     self.tr('파일을 삭제하는 중에 오류가 발생하였습니다!'))
             return

@@ -2,6 +2,7 @@
 
 '''에디터에 대한 정보를 포함하는 파일'''
 
+import logging
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -13,6 +14,7 @@ class TextEditor(QTextEdit):
         self.changed = False
         self.path = path
         self.item = item
+        self.logger = logging.getLogger('textEditor.TextEditor')
 
         self.connect(self, SIGNAL('textChanged()'), self.Changed)
 
@@ -33,21 +35,33 @@ class TextEditor(QTextEdit):
             if answer == QMessageBox.Cancel:
                 return False
             elif answer == QMessageBox.Yes:
-                self.Save()
+                return self.Save()
 
         return True
 
     def Load(self):
         '''에디터에 파일을 불러오는 메소드'''
-        pageFile = open(self.path, 'r')
-        self.setHtml(pageFile.read())
-        pageFile.close()
-        self.changed = False
+        try:
+            pageFile = open(self.path, 'r')
+            self.setHtml(pageFile.read())
+            pageFile.close()
+            self.changed = False
+        except Exception as err:
+            self.logger.error('페이지 파일 불러오는 중에 오류 - ' + str(err))
+            QMessageBox.critical(self, self.tr('페이지 불러오기 실패!'),
+                    self.tr('페이지를 불러오는 중에 오류가 발생하였습니다!'))
 
     def Save(self):
         '''에디터를 파일에 저장하는 메소드'''
-        self.setDocumentTitle(self.item.title)
-        pageFile = open(self.path, 'w')
-        pageFile.write(self.toHtml())
-        pageFile.close()
-        self.changed = False
+        try:
+            self.setDocumentTitle(self.item.title)
+            pageFile = open(self.path, 'w')
+            pageFile.write(self.toHtml())
+            pageFile.close()
+            self.changed = False
+            return True
+        except Exception as err:
+            self.logger.ERROR('페이지 저장 중에 오류 - ' + str(err))
+            QMessageBox.critical(self, self.tr('페이지 저장 실패!'),
+                    self.tr('페이지를 저장하는 중에 오류가 발생하였습니다!'))
+            return False

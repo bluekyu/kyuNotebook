@@ -4,6 +4,7 @@
 
 from os.path import join, exists
 import xml.etree.ElementTree
+import logging
 
 class ConfigManager:
     '''config 파일을 처리하는 클래스'''
@@ -11,9 +12,14 @@ class ConfigManager:
 
     def __init__(self, xmlDir):
         self.xmlPath = join(xmlDir, self.configFileName)
+        self.logger = logging.getLogger('configManger.ConfigManager')
+
         if exists(self.xmlPath):
-            self.xml = xml.etree.ElementTree.ElementTree()
-            self.root = self.xml.parse(self.xmlPath)
+            try:
+                self.xml = xml.etree.ElementTree.ElementTree()
+                self.root = self.xml.parse(self.xmlPath)
+            except Exception as err:
+                self.logger.error('xml 읽기 실패 - ' + str(err))
         else:
             # config 새로 생성
             self.root = xml.etree.ElementTree.Element('note')
@@ -58,7 +64,10 @@ class ConfigManager:
 
     def Write(self):
         '''변경된 config 파일을 씀'''
-        self.xml.write(self.xmlPath, 'UTF-8', True)
+        try:
+            self.xml.write(self.xmlPath, 'UTF-8', True)
+        except Exception as err:
+            self.logger.error('xml 파일 쓰기 실패 - ' + str(err))
 
     def Load(self, tag=None):
         '''config 의 태그 정보들을 가져옴'''
