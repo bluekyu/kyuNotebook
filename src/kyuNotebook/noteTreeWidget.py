@@ -3,10 +3,10 @@
 '''트리 위젯에 대한 정보 및 파일 관리를 담당하는 파일'''
 
 import os, shutil, tempfile
-import xml.etree.ElementTree as xml
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from kyuNotebook.noteTreeItem import *
+from kyuNotebook.noteTreeItem import CommonItem, NoteItem, PageItem
+from kyuNotebook.configManager import ConfigManager
 
 ### 파일 처리 함수 ###
 def MakeKey(prefix, suffix, dirPath):
@@ -38,7 +38,6 @@ class NoteTreeWidget(QTreeWidget):
         self.addActions(contextAction)
 
         self.noteDirPath = noteDirPath
-        self.configFileName = 'config.xml'
         self.LoadNote()
 
     def LoadNote(self):
@@ -51,35 +50,28 @@ class NoteTreeWidget(QTreeWidget):
                             '노트 폴더가 없으면 기능을 사용할 수 없습니다.'))
                 return
 
-        xmlDir = self.noteDirPath
-        xmlPath = os.path.join(xmlDir, self.configFileName)
-
-        # xml 새로 생성
-        if not os.path.exists(xmlPath):
-            xml.ElementTree(xml.Element('note')).write(
-                    xmlPath, 'UTF-8', True)
+        noteDir = self.noteDirPath
+        config = ConfigManager(noteDir)
         self.clear()
-        rootElement = xml.ElementTree().parse(xmlPath)
         rootItem = CommonItem(self, [self.tr('노트 폴더')])
 
         noteList = []
         while True:
-            for note in rootElement.iter('subnote'):
+            for note in config.LoadNote():
                 item = self.AddNote(
-                        rootItem, note.get('title'), note.get('key'))
+                        rootItem, note['title'], note['key'])
                 noteList.insert(0, (item, 
-                    os.path.join(xmlDir, note.get('key'))))
+                    os.path.join(noteDir, note['key'])))
 
-            for page in rootElement.iter('page'):
+            for page in config.LoadPage():
                 self.AddPage(
-                        rootItem, page.get('title'), page.get('key'))
+                        rootItem, page['title'], page['key'])
 
             if noteList == []:
                 break
 
-            rootItem, xmlDir = noteList.pop()
-            rootElement = xml.ElementTree().parse(
-                    os.path.join(xmlDir, self.configFileName))
+            rootItem, noteDir = noteList.pop()
+            config = ConfigManager(noteDir)
 
     def ChangeNoteDirPath(self):
         '''노트 폴더 경로를 변경하는 메소드'''
@@ -133,18 +125,11 @@ class NoteTreeWidget(QTreeWidget):
         os.mkdir(newNotePath, 0o755)
         title = self.tr('새 노트')
 
-        # xml에 노트 추가
-        xmlPath = os.path.join(notePath, self.configFileName)
-        configXml = xml.ElementTree()
-        rootElement = configXml.parse(xmlPath)
-        newElement = xml.Element('subnote', {'title': title, 'key': key})
-        rootElement.append(newElement)
-        configXml.write(xmlPath, 'UTF-8', True)
+        config = ConfigManager(notePath)
+        config.AddNote(title, key)
+        config.Write()
 
-        # xml 추가
-        xmlPath = os.path.join(newNotePath, self.configFileName)
-        xml.ElementTree(xml.Element('note')).write(
-                xmlPath, 'UTF-8', True)
+        ConfigManager(newNotePath)
 
         return self.AddNote(currentItem, title, key)
 
@@ -157,13 +142,9 @@ class NoteTreeWidget(QTreeWidget):
         open(pagePath, 'w').close()
         title = self.tr('새 페이지')
 
-        # xml에 페이지 추가
-        xmlPath = os.path.join(notePath, self.configFileName)
-        configXml = xml.ElementTree()
-        rootElement = configXml.parse(xmlPath)
-        newElement = xml.Element('page', {'title': title, 'key': key})
-        rootElement.append(newElement)
-        configXml.write(xmlPath, 'UTF-8', True)
+        config = ConfigManager(notePath)
+        config.AddPage(title, key)
+        config.Write()
 
         return self.AddPage(currentItem, title, key)
 
@@ -174,23 +155,16 @@ class NoteTreeWidget(QTreeWidget):
     def RemoveItem(self, item):
         '''아이템 제거 메소드'''
         itemPath = self.GetItemPath(item)
-        key = os.path.basename(itemPath)
-        dirPath = os.path.dirname(itemPath)
-        xmlPath = os.path.join(dirPath, self.configFileName)
-        configXml = xml.ElementTree()
-        rootElement = configXml.parse(xmlPath)
+        dirPath, key = os.path.split(itemPath)
+        config = ConfigManager(dirPath)
         try:
             if self.IsPage(item):
                 os.remove(itemPath)
-                for element in rootElement.iter('page'):
-                    if element.get('key') == key:
-                        rootElement.remove(element)
+                config.RemovePage(key)                
             else:
                 shutil.rmtree(itemPath)
-                for element in rootElement.iter('subnote'):
-                    if element.get('key') == key:
-                        rootElement.remove(element)
-            configXml.write(xmlPath, 'UTF-8', True)
+                config.RemoveNote(key)
+            config.Write()
         except:
             QMessageBox.critical(self, self.tr('파일 삭제 오류!'),
                     self.tr('파일을 삭제하는 중에 오류가 발생하였습니다!'))
@@ -210,17 +184,11 @@ class NoteTreeWidget(QTreeWidget):
     def ChangeTitle(self, item):
         '''아이템 제목을 변경하는 메소드'''
         itemPath = self.GetItemPath(item)
-        key = os.path.basename(itemPath)
-        dirPath = os.path.dirname(itemPath)
-        xmlPath = os.path.join(dirPath, self.configFileName)
+        dirPath, key = os.path.split(itemPath)
 
-        configXml = xml.ElementTree()
-        rootElement = configXml.parse(xmlPath)
-        for element in rootElement.iter():
-            if element.get('key') == key:
-                element.set('title', item.title)
-                break
-        configXml.write(xmlPath, 'UTF-8', True)
+        config = ConfigManager(dirPath)
+        config.ChangeTitle(item.title, key)
+        config.Write()
 
         return itemPath
 

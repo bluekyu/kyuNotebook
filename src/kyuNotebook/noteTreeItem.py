@@ -12,7 +12,6 @@ class CommonItem(QTreeWidgetItem):
         self.title = self.text(0)
         self.key = ''
 
-        self.setFlags(self.flags() | Qt.ItemIsEditable)
         self.setExpanded(True)
 
     def IsTitleChanged(self):
@@ -27,11 +26,13 @@ class NoteItem(CommonItem):
     '''노트 아이템에 대한 클래스'''
     def __init__(self, *args, **kargs):
         super().__init__(*args, **kargs)
+        self.setFlags(self.flags() | Qt.ItemIsEditable)
 
 class PageItem(CommonItem):
     '''페이지 아이템에 대한 클래스'''
     def __init__(self, *args, **kargs):
         super().__init__(*args, **kargs)
-        self.setExpanded(False)
-
         self.editor = None
+
+        self.setFlags(self.flags() | Qt.ItemIsEditable)
+        self.setExpanded(False)
