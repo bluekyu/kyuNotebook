@@ -6,7 +6,7 @@ import sys, logging
 import os
 from PyQt4.QtCore import QTextCodec
 from PyQt4.QtGui import QApplication
-from kyuNotebook import mainWindow
+from kyunotebooklib import mainWindow
 
 def SetLogging():
     '''로그 파일을 설정해주는 함수'''

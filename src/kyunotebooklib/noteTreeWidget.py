@@ -5,8 +5,8 @@
 import os, shutil, tempfile, logging
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from kyuNotebook.noteTreeItem import CommonItem, NoteItem, PageItem
-from kyuNotebook.configManager import ConfigManager
+from kyunotebooklib.noteTreeItem import CommonItem, NoteItem, PageItem
+from kyunotebooklib.configManager import ConfigManager
 
 ### 파일 처리 함수 ###
 def MakeKey(prefix, suffix, dirPath):

@@ -4,9 +4,9 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from kyuNotebook import ui_mainWindow
-from kyuNotebook import noteTreeWidget
-from kyuNotebook import textEditor
+from kyunotebooklib import ui_mainWindow
+from kyunotebooklib import noteTreeWidget
+from kyunotebooklib import textEditor
 
 __version__ = '0.1.0'
 __program_name__ = 'kyuNotebook'

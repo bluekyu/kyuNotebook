@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 longDescription = '''kyuNotebook is cross-platform note-taking program.
-This program use Python and PyQt.
+This program use Python3 and PyQt4.
 '''
 
 setup(name='kyuNotebook',
@@ -13,8 +13,8 @@ setup(name='kyuNotebook',
       author='YoungUk Kim',
       author_email='bluekyu.dev@gmail.com',
       url='http://www.bluekyu.me/',
-      packages=['kyuNotebook'],
+      packages=['kyunotebooklib'],
       package_dir={'': 'src'},
-      scripts=['src/kyuNotebook.pyw'],
+      scripts=['src/kyunotebook'],
       license='GNU GPL v3'
       )
