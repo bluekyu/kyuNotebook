@@ -1,5 +1,9 @@
 <RCC>
   <qresource>
+    <file alias="quit">icons/quit.png</file>
+    <file alias="remove_item">icons/remove_item.png</file>
+    <file alias="edit_page">icons/edit_page.png</file>
+    <file alias="application">icons/application.png</file>
     <file alias="new_note">icons/new_note.png</file>
     <file alias="new_page">icons/new_page.png</file>
     <file alias="save_all_page">icons/save_all_page.png</file>

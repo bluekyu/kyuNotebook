@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>kyuNotebook</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
+    <normaloff>:/application</normaloff>:/application</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <property name="leftMargin">
@@ -59,12 +63,12 @@
    </property>
    <widget class="QMenu" name="fileMenu">
     <property name="title">
-     <string>파일</string>
+     <string>파일(&amp;F)</string>
     </property>
     <addaction name="newNoteAction"/>
     <addaction name="newPageAction"/>
     <addaction name="separator"/>
-    <addaction name="openPageAction"/>
+    <addaction name="editPageAction"/>
     <addaction name="removeItemAction"/>
     <addaction name="separator"/>
     <addaction name="savePageAction"/>
@@ -77,18 +81,18 @@
    </widget>
    <widget class="QMenu" name="editMenu">
     <property name="title">
-     <string>편집</string>
+     <string>편집(&amp;E)</string>
     </property>
     <addaction name="changeTitleAction"/>
    </widget>
    <widget class="QMenu" name="toolMenu">
     <property name="title">
-     <string>도구</string>
+     <string>도구(&amp;T)</string>
     </property>
    </widget>
    <widget class="QMenu" name="helpMenu">
     <property name="title">
-     <string>도움말</string>
+     <string>도움말(&amp;H)</string>
     </property>
    </widget>
    <addaction name="fileMenu"/>
@@ -120,7 +124,7 @@
    <addaction name="newNoteAction"/>
    <addaction name="newPageAction"/>
    <addaction name="separator"/>
-   <addaction name="openPageAction"/>
+   <addaction name="editPageAction"/>
    <addaction name="savePageAction"/>
   </widget>
   <widget class="QDockWidget" name="noteTreeDockWidget">
@@ -133,6 +137,10 @@
    <widget class="QWidget" name="dockWidgetContents"/>
   </widget>
   <action name="quitAction">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/quit</normaloff>:/quit</iconset>
+   </property>
    <property name="text">
     <string>종료</string>
    </property>
@@ -152,7 +160,7 @@
      <normaloff>:/new_page</normaloff>:/new_page</iconset>
    </property>
    <property name="text">
-    <string>새 페이지</string>
+    <string>새 페이지(&amp;P)</string>
    </property>
    <property name="toolTip">
     <string>새 페이지를 생성합니다.</string>
@@ -170,7 +178,7 @@
      <normaloff>:/new_note</normaloff>:/new_note</iconset>
    </property>
    <property name="text">
-    <string>새 노트</string>
+    <string>새 노트(&amp;N)</string>
    </property>
    <property name="toolTip">
     <string>새 노트를 생성합니다.</string>
@@ -199,7 +207,7 @@
      <normaloff>:/save_page</normaloff>:/save_page</iconset>
    </property>
    <property name="text">
-    <string>현재 페이지 저장</string>
+    <string>현재 페이지 저장(&amp;S)</string>
    </property>
    <property name="toolTip">
     <string>현재 열린 페이지를 저장합니다.</string>
@@ -237,21 +245,32 @@
     <string notr="true">F2</string>
    </property>
   </action>
-  <action name="openPageAction">
+  <action name="editPageAction">
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/edit_page</normaloff>:/edit_page</iconset>
+   </property>
    <property name="text">
-    <string>페이지 열기</string>
+    <string>페이지 편집(&amp;E)</string>
    </property>
    <property name="toolTip">
-    <string>선택한 페이지를 엽니다.</string>
+    <string>선택한 페이지를 편집합니다.</string>
    </property>
    <property name="statusTip">
-    <string>선택한 페이지를 엽니다.</string>
+    <string>선택한 페이지를 편집합니다.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
    </property>
   </action>
   <action name="removeItemAction">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/remove_item</normaloff>:/remove_item</iconset>
+   </property>
    <property name="text">
     <string>노트/페이지 제거</string>
    </property>

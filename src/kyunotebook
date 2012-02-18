@@ -7,6 +7,7 @@ import os
 from PyQt4.QtCore import QTextCodec
 from PyQt4.QtGui import QApplication
 from kyunotebooklib import mainWindow
+from kyunotebooklib import __program_name__
 
 def SetLogging():
     '''로그 파일을 설정해주는 함수'''
@@ -36,7 +37,7 @@ if __name__ == '__main__':
 
     app.setOrganizationName('bluekyu')
     app.setOrganizationDomain('bluekyu.me')
-    app.setApplicationName('kyuNotebook')
+    app.setApplicationName(__program_name__)
 
     mainWindow = mainWindow.MainWindow()
     mainWindow.show()

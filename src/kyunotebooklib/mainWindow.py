@@ -8,11 +8,6 @@ from kyunotebooklib import ui_mainWindow
 from kyunotebooklib import noteTreeWidget
 from kyunotebooklib import textEditor
 
-__version__ = '0.1.0'
-__program_name__ = 'kyuNotebook'
-__author__ = 'YoungUk Kim'
-__date__ = '02.14.2012'
-
 class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     '''메인 윈도우 클래스'''
 
@@ -29,7 +24,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         self.restoreState(settings.value('mainWindow.State',
             QByteArray()))
 
-        noteTreeAction = [self.openPageAction, self.changeTitleAction, 
+        noteTreeAction = [self.editPageAction, self.changeTitleAction, 
                 self.removeItemAction]
         self.noteTree = noteTreeWidget.NoteTreeWidget(
                             noteDirPath, noteTreeAction, self)
@@ -108,7 +103,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         self.noteTree.EditTitle()
 
     @pyqtSignature('')
-    def on_openPageAction_triggered(self):
+    def on_editPageAction_triggered(self):
         '''현재 선택한 페이지를 탭에 여는 슬롯'''
         item = self.noteTree.GetCurrentPage()
         if item is None:
@@ -178,13 +173,13 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         '''선택하는 아이템이 변경될 시에 액션들에 대한 활성화 여부를 조절'''
         self.newNoteAction.setEnabled(False)
         self.newPageAction.setEnabled(False)
-        self.openPageAction.setEnabled(False)
+        self.editPageAction.setEnabled(False)
  
         if self.noteTree.IsNote(currentItem):
             self.newNoteAction.setEnabled(True)
             self.newPageAction.setEnabled(True)
         elif self.noteTree.IsPage(currentItem):
-            self.openPageAction.setEnabled(True)
+            self.editPageAction.setEnabled(True)
         else:
             self.newNoteAction.setEnabled(True)
 
@@ -202,6 +197,5 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         '''단축키 설정하는 메소드'''
         self.quitAction.setShortcuts(QKeySequence.Quit)
         self.newPageAction.setShortcuts(QKeySequence.New)
-        self.openPageAction.setShortcuts(QKeySequence.Open)
         self.savePageAction.setShortcuts(QKeySequence.Save)
         self.closeCurrentPageAction.setShortcuts(QKeySequence.Close)

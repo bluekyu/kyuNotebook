@@ -1,20 +1,34 @@
 #!/usr/bin/env python3
 
-import os
+import os, sys
 from distutils.core import setup
 
-longDescription = '''kyuNotebook is cross-platform note-taking program.
-This program use Python3 and PyQt4.'''
+srcDirPath = os.path.join(os.getcwd(), os.path.dirname(__file__), 'src')
+if srcDirPath not in sys.path:
+    sys.path.insert(0, srcDirPath)
 
-setup(name='kyuNotebook',
-      version='0.1.0',
+import kyunotebooklib
+
+desktop_files = [
+        ('share/icons/hicolor/32x32/apps', ['desktop/kyuNotebook.png']),
+        ('share/applications', ['desktop/kyuNotebook.desktop'])]
+
+if sys.platform.startswith('linux'):
+    data_files = desktop_files
+
+setup(name=kyunotebooklib.__program_name__,
+      version=kyunotebooklib.__version__,
       description='Note taking program',
-      long_description=longDescription,
-      author='YoungUk Kim',
+      long_description='''
+kyuNotebook is cross-platform note-taking program. 
+This program use Python3 and PyQt4.
+''',
+      author=kyunotebooklib.__author__,
       author_email='bluekyu.dev@gmail.com',
       url='http://www.bluekyu.me/',
       packages=['kyunotebooklib'],
       package_dir={'': 'src'},
       scripts=['src/kyunotebook'],
+      data_files=data_files,
       license='GNU GPL v3'
       )

@@ -1,0 +1,22 @@
+[Desktop Entry]
+Categories=Office
+Comment[en]=Run kyuNotebook
+Comment[ko]=kyuNotebook 실행
+Comment=kyuNotebook 실행
+Exec=kyunotebook
+GenericName[en]=Note-taking Application
+GenericName[ko]=노트 필기 프로그램
+GenericName=노트 필기 프로그램
+Icon=kyuNotebook
+MimeType=
+Name[ko]=kyuNotebook
+Name=kyuNotebook
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
