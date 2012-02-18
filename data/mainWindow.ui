@@ -105,6 +105,12 @@
    <property name="windowTitle">
     <string>도구모음</string>
    </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="floatable">
+    <bool>true</bool>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -141,6 +147,10 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/new_page</normaloff>:/new_page</iconset>
+   </property>
    <property name="text">
     <string>새 페이지</string>
    </property>
@@ -154,6 +164,10 @@
   <action name="newNoteAction">
    <property name="enabled">
     <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/new_note</normaloff>:/new_note</iconset>
    </property>
    <property name="text">
     <string>새 노트</string>
@@ -180,6 +194,10 @@
    </property>
   </action>
   <action name="savePageAction">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/save_page</normaloff>:/save_page</iconset>
+   </property>
    <property name="text">
     <string>현재 페이지 저장</string>
    </property>
@@ -191,6 +209,10 @@
    </property>
   </action>
   <action name="saveAllPageAction">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/save_all_page</normaloff>:/save_all_page</iconset>
+   </property>
    <property name="text">
     <string>모든 페이지 저장</string>
    </property>
@@ -252,7 +274,9 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>quitAction</sender>

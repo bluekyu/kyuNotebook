@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
+import os
 from distutils.core import setup
 
 longDescription = '''kyuNotebook is cross-platform note-taking program.
-This program use Python3 and PyQt4.
-'''
+This program use Python3 and PyQt4.'''
 
 setup(name='kyuNotebook',
       version='0.1.0',

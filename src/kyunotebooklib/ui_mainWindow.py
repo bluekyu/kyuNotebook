@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '../ui/mainWindow.ui'
+# Form implementation generated from reading ui file '../../data/mainWindow.ui'
 #
-# Created: Tue Feb 14 20:38:04 2012
+# Created: Sat Feb 18 13:51:08 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -54,6 +54,8 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.fileToolBar = QtGui.QToolBar(MainWindow)
         self.fileToolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "도구모음", None, QtGui.QApplication.UnicodeUTF8))
+        self.fileToolBar.setMovable(False)
+        self.fileToolBar.setFloatable(True)
         self.fileToolBar.setObjectName(_fromUtf8("fileToolBar"))
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.fileToolBar)
         self.noteTreeDockWidget = QtGui.QDockWidget(MainWindow)
@@ -70,12 +72,18 @@ class Ui_MainWindow(object):
         self.quitAction.setObjectName(_fromUtf8("quitAction"))
         self.newPageAction = QtGui.QAction(MainWindow)
         self.newPageAction.setEnabled(False)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/new_page")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.newPageAction.setIcon(icon)
         self.newPageAction.setText(QtGui.QApplication.translate("MainWindow", "새 페이지", None, QtGui.QApplication.UnicodeUTF8))
         self.newPageAction.setToolTip(QtGui.QApplication.translate("MainWindow", "새 페이지를 생성합니다.", None, QtGui.QApplication.UnicodeUTF8))
         self.newPageAction.setStatusTip(QtGui.QApplication.translate("MainWindow", "새 페이지를 생성합니다.", None, QtGui.QApplication.UnicodeUTF8))
         self.newPageAction.setObjectName(_fromUtf8("newPageAction"))
         self.newNoteAction = QtGui.QAction(MainWindow)
         self.newNoteAction.setEnabled(False)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/new_note")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.newNoteAction.setIcon(icon1)
         self.newNoteAction.setText(QtGui.QApplication.translate("MainWindow", "새 노트", None, QtGui.QApplication.UnicodeUTF8))
         self.newNoteAction.setToolTip(QtGui.QApplication.translate("MainWindow", "새 노트를 생성합니다.", None, QtGui.QApplication.UnicodeUTF8))
         self.newNoteAction.setStatusTip(QtGui.QApplication.translate("MainWindow", "새 노트를 생성합니다.", None, QtGui.QApplication.UnicodeUTF8))
@@ -87,11 +95,17 @@ class Ui_MainWindow(object):
         self.changeNoteDirAction.setStatusTip(QtGui.QApplication.translate("MainWindow", "노트를 저장하는 폴더를 변경합니다.", None, QtGui.QApplication.UnicodeUTF8))
         self.changeNoteDirAction.setObjectName(_fromUtf8("changeNoteDirAction"))
         self.savePageAction = QtGui.QAction(MainWindow)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/save_page")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.savePageAction.setIcon(icon2)
         self.savePageAction.setText(QtGui.QApplication.translate("MainWindow", "현재 페이지 저장", None, QtGui.QApplication.UnicodeUTF8))
         self.savePageAction.setToolTip(QtGui.QApplication.translate("MainWindow", "현재 열린 페이지를 저장합니다.", None, QtGui.QApplication.UnicodeUTF8))
         self.savePageAction.setStatusTip(QtGui.QApplication.translate("MainWindow", "현재 열린 페이지를 저장합니다.", None, QtGui.QApplication.UnicodeUTF8))
         self.savePageAction.setObjectName(_fromUtf8("savePageAction"))
         self.saveAllPageAction = QtGui.QAction(MainWindow)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(_fromUtf8(":/save_all_page")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.saveAllPageAction.setIcon(icon3)
         self.saveAllPageAction.setText(QtGui.QApplication.translate("MainWindow", "모든 페이지 저장", None, QtGui.QApplication.UnicodeUTF8))
         self.saveAllPageAction.setToolTip(QtGui.QApplication.translate("MainWindow", "현재 열려있는 모든 페이지를 저장합니다.", None, QtGui.QApplication.UnicodeUTF8))
         self.saveAllPageAction.setStatusTip(QtGui.QApplication.translate("MainWindow", "현재 열려있는 모든 페이지를 저장합니다.", None, QtGui.QApplication.UnicodeUTF8))
@@ -150,3 +164,4 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         pass
 
+from . import icons_rc

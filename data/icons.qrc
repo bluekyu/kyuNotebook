@@ -1,0 +1,8 @@
+<RCC>
+  <qresource>
+    <file alias="new_note">icons/new_note.png</file>
+    <file alias="new_page">icons/new_page.png</file>
+    <file alias="save_all_page">icons/save_all_page.png</file>
+    <file alias="save_page">icons/save_page.png</file>
+  </qresource>
+</RCC>
