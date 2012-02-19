@@ -33,5 +33,5 @@ This program use Python3 and PyQt4.
       package_dir={'': 'src'},
       scripts=['src/kyunotebook'],
       data_files=data_files,
-      license='GNU GPL v3'
+      license=kyunotebooklib.__license__,
       )

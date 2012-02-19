@@ -24,6 +24,16 @@ class TextEditor(QTextEdit):
         '''에디터 변경 시 작동'''
         self.changed = True
 
+    def SetFont(self):
+        font, ok = QFontDialog.getFont(self.currentFont(), self)
+        if ok:
+            self.setCurrentFont(font)
+
+    def SetBold(self, check):
+        font = QFont(self.currentFont())
+        font.setBold(check)
+        self.setCurrentFont(font)
+
     def CloseRequest(self):
         '''닫기 요청이 있을 시에 실행되는 메소드'''
         if self.changed:

@@ -159,6 +159,47 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         self.noteTree.RemoveItem(item)
         self.statusbar.showMessage(self.tr('삭제 완료'), 5000)
 
+    @pyqtSignature('')
+    def on_fontAction_triggered(self):
+        editor = self.pageTab.currentWidget()
+        if editor is not None:
+            editor.SetFont()
+
+    @pyqtSignature('bool')
+    def on_boldAction_toggled(self, check):
+        editor = self.pageTab.currentWidget()
+        if editor is not None:
+            editor.SetBold(check)
+
+    @pyqtSignature('bool')
+    def on_italicAction_toggled(self, check):
+        editor = self.pageTab.currentWidget()
+        if editor is not None:
+            editor.setFontItalic(check)
+
+    @pyqtSignature('bool')
+    def on_underlineAction_toggled(self, check):
+        editor = self.pageTab.currentWidget()
+        if editor is not None:
+            editor.setFontUnderline(check)
+
+    @pyqtSignature('')
+    def on_aboutAction_triggered(self):
+        '''프로그램에 대한 정보를 보여줌'''
+        from platform import python_version, system
+        from kyunotebooklib import __version__, __program_name__, \
+                __author__, __date__, __license__
+        QMessageBox.about(self, self.tr('{} 정보').format(__program_name__),
+            self.tr('''<p><b>{0}</b>&nbsp;&nbsp;v.{1}</p>
+            <p>"{0}"은 노트 필기 프로그램입니다.</p>
+            <p>파이썬 {2} - Qt {3} - PyQt {4} - 플랫폼 {5}<br/><br/>
+            개발자: {6}<br/>
+            라이선스: {7}<br/>
+            일자: {8}</p>''').format(
+                __program_name__, __version__, python_version, QT_VERSION_STR,
+                PYQT_VERSION_STR, system(), __author__, __license__, __date__))
+
+
     ### 메소드 ###
     def closeEvent(self, event):
         '''프로그램 종료 이벤트'''
