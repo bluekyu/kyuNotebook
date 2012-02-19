@@ -157,7 +157,10 @@ class NoteTreeWidget(QTreeWidget):
 
     def EditTitle(self):
         '''아이템 제목 편집 메소드'''
+        item = self.currentItem()
+        item.setFlags(item.flags() | Qt.ItemIsEditable)
         self.editItem(self.currentItem())
+        item.setFlags(item.flags() & ~Qt.ItemIsEditable)
 
     def RemoveItem(self, item):
         '''아이템 제거 메소드'''
@@ -210,11 +213,3 @@ class NoteTreeWidget(QTreeWidget):
             item = item.parent()
 
         return os.path.join(self.noteDirPath, *keyList)
-
-    def GetCurrentPage(self):
-        '''현재 페이지 아이템을 반환하는 메소드'''
-        item = self.currentItem()
-        if self.IsPage(item):
-            return item
-        else:
-            return None

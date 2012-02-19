@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../../data/mainWindow.ui'
 #
-# Created: Sat Feb 18 16:02:37 2012
+# Created: Sun Feb 19 15:04:07 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -130,7 +130,6 @@ class Ui_MainWindow(object):
         self.editPageAction.setText(QtGui.QApplication.translate("MainWindow", "페이지 편집(&E)", None, QtGui.QApplication.UnicodeUTF8))
         self.editPageAction.setToolTip(QtGui.QApplication.translate("MainWindow", "선택한 페이지를 편집합니다.", None, QtGui.QApplication.UnicodeUTF8))
         self.editPageAction.setStatusTip(QtGui.QApplication.translate("MainWindow", "선택한 페이지를 편집합니다.", None, QtGui.QApplication.UnicodeUTF8))
-        self.editPageAction.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+E", None, QtGui.QApplication.UnicodeUTF8))
         self.editPageAction.setObjectName(_fromUtf8("editPageAction"))
         self.removeItemAction = QtGui.QAction(MainWindow)
         icon7 = QtGui.QIcon()

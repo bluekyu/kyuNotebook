@@ -38,6 +38,10 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
             SIGNAL('itemChanged(QTreeWidgetItem*, int)'),
             self.ChangeItem)
 
+        self.connect(self.noteTree,
+            SIGNAL('itemDoubleClicked(QTreeWidgetItem*, int)'),
+            self.ItemDoubleClicked)
+
     ### 슬롯 ###
     @pyqtSignature('')
     def on_newNoteAction_triggered(self):
@@ -103,10 +107,11 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         self.noteTree.EditTitle()
 
     @pyqtSignature('')
-    def on_editPageAction_triggered(self):
+    def on_editPageAction_triggered(self, item=None):
         '''현재 선택한 페이지를 탭에 여는 슬롯'''
-        item = self.noteTree.GetCurrentPage()
         if item is None:
+            item = self.noteTree.currentItem()
+        if not self.noteTree.IsPage(item):
             return
         if item.editor is not None:
             self.pageTab.setCurrentIndex(self.pageTab.indexOf(item.editor))
@@ -185,6 +190,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     def ChangeItem(self, item, column):
         '''아이템에 대한 정보가 변경되었을 시에 실행되는 슬롯'''
+        # 제목 변경
         if column == 0 and item.IsTitleChanged():
             path = self.noteTree.ChangeTitle(item)
             if self.noteTree.IsPage(item) and item.editor is not None:
@@ -192,6 +198,11 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
                 if tabIndex != -1:
                     self.pageTab.setTabText(tabIndex, item.title)
             self.statusbar.showMessage(self.tr('이름 변경 완료'), 5000)
+
+    def ItemDoubleClicked(self, item, column):
+        '''아이템이 더블 클릭 되었을 때 실행되는 슬롯'''
+        if self.noteTree.IsPage(item):
+            self.on_editPageAction_triggered(item)
 
     def KeySetting(self):
         '''단축키 설정하는 메소드'''
