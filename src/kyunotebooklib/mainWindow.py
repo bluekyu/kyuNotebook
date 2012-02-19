@@ -14,7 +14,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
-        self.KeySetting()
+        self.AdditionalUi()
 
         ### 설정 복원 ###
         settings = QSettings()
@@ -53,9 +53,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     def on_newPageAction_triggered(self):
         '''새 페이지를 생성하는 슬롯'''
         item = self.noteTree.NewPage()
-        path = self.noteTree.GetItemPath(item)
-        item.editor = textEditor.TextEditor(item, path)
-        self.pageTab.addTab(item.editor, item.title)
+        self.AddPageTab(item)
         self.statusbar.showMessage(self.tr('새 페이지 생성 완료'), 5000)
 
     @pyqtSignature('')
@@ -76,6 +74,13 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         if editor.CloseRequest():
             editor.item.editor = None
             self.pageTab.removeTab(tabIndex)
+
+    @pyqtSignature('int')
+    def on_pageTab_currentChanged(self, tabIndex):
+        '''현재 탭이 변경되었을 때 동작하는 슬롯'''
+        if tabIndex >= 0:
+            editor = self.pageTab.widget(tabIndex)
+            self.FontToolBarActionEnabled(editor.currentCharFormat())
 
     @pyqtSignature('')
     def on_closeCurrentPageAction_triggered(self):
@@ -107,18 +112,15 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         self.noteTree.EditTitle()
 
     @pyqtSignature('')
-    def on_editPageAction_triggered(self, item=None):
+    def on_editPageAction_triggered(self):
         '''현재 선택한 페이지를 탭에 여는 슬롯'''
-        if item is None:
-            item = self.noteTree.currentItem()
+        item = self.noteTree.currentItem()
         if not self.noteTree.IsPage(item):
             return
         if item.editor is not None:
             self.pageTab.setCurrentIndex(self.pageTab.indexOf(item.editor))
         else:
-            path = self.noteTree.GetItemPath(item)
-            item.editor = textEditor.TextEditor(item, path)
-            self.pageTab.addTab(item.editor, item.title)
+            self.AddPageTab(item)
 
     @pyqtSignature('')
     def on_removeItemAction_triggered(self):
@@ -166,22 +168,28 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
             editor.SetFont()
 
     @pyqtSignature('bool')
-    def on_boldAction_toggled(self, check):
+    def on_boldAction_triggered(self, check):
         editor = self.pageTab.currentWidget()
         if editor is not None:
             editor.SetBold(check)
 
     @pyqtSignature('bool')
-    def on_italicAction_toggled(self, check):
+    def on_italicAction_triggered(self, check):
         editor = self.pageTab.currentWidget()
         if editor is not None:
             editor.setFontItalic(check)
 
     @pyqtSignature('bool')
-    def on_underlineAction_toggled(self, check):
+    def on_underlineAction_triggered(self, check):
         editor = self.pageTab.currentWidget()
         if editor is not None:
             editor.setFontUnderline(check)
+
+    @pyqtSignature('bool')
+    def on_strikeoutAction_triggered(self, check):
+        editor = self.pageTab.currentWidget()
+        if editor is not None:
+            editor.SetStrikeout(check)
 
     @pyqtSignature('')
     def on_aboutAction_triggered(self):
@@ -199,7 +207,6 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
                 __program_name__, __version__, python_version, QT_VERSION_STR,
                 PYQT_VERSION_STR, system(), __author__, __license__, __date__))
 
-
     ### 메소드 ###
     def closeEvent(self, event):
         '''프로그램 종료 이벤트'''
@@ -215,6 +222,18 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         settings.setValue('mainWindow.Geometry', self.saveGeometry())
         settings.setValue('mainWindow.State', self.saveState())
 
+    def FontComboBoxChanged(self, fontFamily):
+        editor = self.pageTab.currentWidget()
+        if editor is not None:
+            editor.setFontFamily(fontFamily)
+
+    def FontSizeComboBoxChanged(self, fontSizeString):
+        fontSize = int(fontSizeString)
+        if fontSize > 0:
+            editor = self.pageTab.currentWidget()
+            if editor is not None:
+                editor.setFontPointSize(fontSize)
+
     def NoteTreeActionEnabled(self, currentItem, previousItem):
         '''선택하는 아이템이 변경될 시에 액션들에 대한 활성화 여부를 조절'''
         self.newNoteAction.setEnabled(False)
@@ -228,6 +247,16 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
             self.editPageAction.setEnabled(True)
         else:
             self.newNoteAction.setEnabled(True)
+
+    def FontToolBarActionEnabled(self, fontFormat):
+        '''폰트 툴바의 액션들의 활성화 여부를 조절'''
+        font = fontFormat.font()
+        self.fontComboBox.setCurrentFont(font)
+        self.fontSizeComboBox.setEditText(str(font.pointSize()))
+        self.boldAction.setChecked(font.bold())
+        self.italicAction.setChecked(font.italic())
+        self.underlineAction.setChecked(font.underline())
+        self.strikeoutAction.setChecked(font.strikeOut())
 
     def ChangeItem(self, item, column):
         '''아이템에 대한 정보가 변경되었을 시에 실행되는 슬롯'''
@@ -243,10 +272,36 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
     def ItemDoubleClicked(self, item, column):
         '''아이템이 더블 클릭 되었을 때 실행되는 슬롯'''
         if self.noteTree.IsPage(item):
-            self.on_editPageAction_triggered(item)
+            self.editPageAction.trigger()
 
-    def KeySetting(self):
-        '''단축키 설정하는 메소드'''
+    def AddPageTab(self, item):
+        path = self.noteTree.GetItemPath(item)
+        item.editor = textEditor.TextEditor(item, path)
+        self.connect(item.editor, 
+                SIGNAL('currentCharFormatChanged(const QTextCharFormat&)'),
+                self.FontToolBarActionEnabled)
+        tabIndex = self.pageTab.addTab(item.editor, item.title)
+        self.pageTab.setCurrentIndex(tabIndex)
+
+    def AdditionalUi(self):
+        '''추가적인 ui 설정'''
+        # 폰트 콤보 박스
+        self.fontComboBox = QFontComboBox()
+        self.fontToolBar.insertWidget(self.boldAction, self.fontComboBox)
+        self.connect(self.fontComboBox, SIGNAL('activated(const QString&)'),
+            self.FontComboBoxChanged)
+       
+        # 폰트 크기 콤보 박스
+        self.fontSizeComboBox = QComboBox()
+        self.fontSizeComboBox.addItems(
+            ['6', '7', '8', '9', '10', '11', '12', '14', '16', '18', '20',
+             '22', '24', '26', '28', '36', '48', '72'])
+        self.fontSizeComboBox.setEditable(True)
+        self.fontSizeComboBox.setValidator(QIntValidator(1, 512, self))
+        self.fontToolBar.insertWidget(self.boldAction, self.fontSizeComboBox)
+        self.connect(self.fontSizeComboBox, SIGNAL('activated(const QString&)'),
+            self.FontSizeComboBoxChanged)
+
         self.quitAction.setShortcuts(QKeySequence.Quit)
         self.newPageAction.setShortcuts(QKeySequence.New)
         self.savePageAction.setShortcuts(QKeySequence.Save)

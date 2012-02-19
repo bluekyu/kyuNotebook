@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../../data/mainWindow.ui'
 #
-# Created: Sun Feb 19 16:52:48 2012
+# Created: Sun Feb 19 22:06:50 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -183,6 +183,13 @@ class Ui_MainWindow(object):
         self.underlineAction.setStatusTip(QtGui.QApplication.translate("MainWindow", "글꼴에 밑줄을 표시합니다.", None, QtGui.QApplication.UnicodeUTF8))
         self.underlineAction.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+U", None, QtGui.QApplication.UnicodeUTF8))
         self.underlineAction.setObjectName(_fromUtf8("underlineAction"))
+        self.strikeoutAction = QtGui.QAction(MainWindow)
+        self.strikeoutAction.setCheckable(True)
+        self.strikeoutAction.setText(QtGui.QApplication.translate("MainWindow", "취소선", None, QtGui.QApplication.UnicodeUTF8))
+        self.strikeoutAction.setToolTip(QtGui.QApplication.translate("MainWindow", "글꼴에 취소선을 표시합니다. (Ctrl+D)", None, QtGui.QApplication.UnicodeUTF8))
+        self.strikeoutAction.setStatusTip(QtGui.QApplication.translate("MainWindow", "글꼴에 취소선을 표시합니다.", None, QtGui.QApplication.UnicodeUTF8))
+        self.strikeoutAction.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+D", None, QtGui.QApplication.UnicodeUTF8))
+        self.strikeoutAction.setObjectName(_fromUtf8("strikeoutAction"))
         self.fileMenu.addAction(self.newNoteAction)
         self.fileMenu.addAction(self.newPageAction)
         self.fileMenu.addSeparator()
@@ -212,6 +219,7 @@ class Ui_MainWindow(object):
         self.fontToolBar.addAction(self.boldAction)
         self.fontToolBar.addAction(self.italicAction)
         self.fontToolBar.addAction(self.underlineAction)
+        self.fontToolBar.addAction(self.strikeoutAction)
 
         self.retranslateUi(MainWindow)
         self.pageTab.setCurrentIndex(-1)

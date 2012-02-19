@@ -30,9 +30,16 @@ class TextEditor(QTextEdit):
             self.setCurrentFont(font)
 
     def SetBold(self, check):
-        font = QFont(self.currentFont())
-        font.setBold(check)
-        self.setCurrentFont(font)
+        font = self.currentFont()
+        if font.bold() != check:
+            font.setBold(check)
+            self.setCurrentFont(font)
+
+    def SetStrikeout(self, check):
+        font = self.currentFont()
+        if font.strikeOut() != check:
+            font.setStrikeOut(check)
+            self.setCurrentFont(font)
 
     def CloseRequest(self):
         '''닫기 요청이 있을 시에 실행되는 메소드'''

@@ -160,6 +160,7 @@
    <addaction name="boldAction"/>
    <addaction name="italicAction"/>
    <addaction name="underlineAction"/>
+   <addaction name="strikeoutAction"/>
   </widget>
   <action name="quitAction">
    <property name="icon">
@@ -385,6 +386,23 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+U</string>
+   </property>
+  </action>
+  <action name="strikeoutAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>취소선</string>
+   </property>
+   <property name="toolTip">
+    <string>글꼴에 취소선을 표시합니다. (Ctrl+D)</string>
+   </property>
+   <property name="statusTip">
+    <string>글꼴에 취소선을 표시합니다.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
    </property>
   </action>
  </widget>
