@@ -1,5 +1,9 @@
 <RCC>
   <qresource>
+    <file alias="bold">icons/bold.png</file>
+    <file alias="italic">icons/italic.png</file>
+    <file alias="underline">icons/underline.png</file>
+    <file alias="strikeout">icons/strikeout.png</file>
     <file alias="quit">icons/quit.png</file>
     <file alias="remove_item">icons/remove_item.png</file>
     <file alias="edit_page">icons/edit_page.png</file>

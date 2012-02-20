@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../../data/mainWindow.ui'
 #
-# Created: Sun Feb 19 22:06:50 2012
+# Created: Mon Feb 20 17:07:42 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -164,6 +164,9 @@ class Ui_MainWindow(object):
         self.fontAction.setObjectName(_fromUtf8("fontAction"))
         self.boldAction = QtGui.QAction(MainWindow)
         self.boldAction.setCheckable(True)
+        icon8 = QtGui.QIcon()
+        icon8.addPixmap(QtGui.QPixmap(_fromUtf8(":/bold")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.boldAction.setIcon(icon8)
         self.boldAction.setText(QtGui.QApplication.translate("MainWindow", "굵게", None, QtGui.QApplication.UnicodeUTF8))
         self.boldAction.setToolTip(QtGui.QApplication.translate("MainWindow", "글꼴을 굵게 표시합니다. (Ctrl+B)", None, QtGui.QApplication.UnicodeUTF8))
         self.boldAction.setStatusTip(QtGui.QApplication.translate("MainWindow", "글꼴을 굵게 표시합니다.", None, QtGui.QApplication.UnicodeUTF8))
@@ -171,6 +174,9 @@ class Ui_MainWindow(object):
         self.boldAction.setObjectName(_fromUtf8("boldAction"))
         self.italicAction = QtGui.QAction(MainWindow)
         self.italicAction.setCheckable(True)
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap(_fromUtf8(":/italic")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.italicAction.setIcon(icon9)
         self.italicAction.setText(QtGui.QApplication.translate("MainWindow", "이탤릭체", None, QtGui.QApplication.UnicodeUTF8))
         self.italicAction.setToolTip(QtGui.QApplication.translate("MainWindow", "글꼴을 기울려서 표시합니다. (Ctrl+I)", None, QtGui.QApplication.UnicodeUTF8))
         self.italicAction.setStatusTip(QtGui.QApplication.translate("MainWindow", "글꼴을 기울려서 표시합니다.", None, QtGui.QApplication.UnicodeUTF8))
@@ -178,6 +184,9 @@ class Ui_MainWindow(object):
         self.italicAction.setObjectName(_fromUtf8("italicAction"))
         self.underlineAction = QtGui.QAction(MainWindow)
         self.underlineAction.setCheckable(True)
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap(_fromUtf8(":/underline")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.underlineAction.setIcon(icon10)
         self.underlineAction.setText(QtGui.QApplication.translate("MainWindow", "밑줄", None, QtGui.QApplication.UnicodeUTF8))
         self.underlineAction.setToolTip(QtGui.QApplication.translate("MainWindow", "글꼴에 밑줄을 표시합니다. (Ctrl+U)", None, QtGui.QApplication.UnicodeUTF8))
         self.underlineAction.setStatusTip(QtGui.QApplication.translate("MainWindow", "글꼴에 밑줄을 표시합니다.", None, QtGui.QApplication.UnicodeUTF8))
@@ -185,6 +194,9 @@ class Ui_MainWindow(object):
         self.underlineAction.setObjectName(_fromUtf8("underlineAction"))
         self.strikeoutAction = QtGui.QAction(MainWindow)
         self.strikeoutAction.setCheckable(True)
+        icon11 = QtGui.QIcon()
+        icon11.addPixmap(QtGui.QPixmap(_fromUtf8(":/strikeout")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.strikeoutAction.setIcon(icon11)
         self.strikeoutAction.setText(QtGui.QApplication.translate("MainWindow", "취소선", None, QtGui.QApplication.UnicodeUTF8))
         self.strikeoutAction.setToolTip(QtGui.QApplication.translate("MainWindow", "글꼴에 취소선을 표시합니다. (Ctrl+D)", None, QtGui.QApplication.UnicodeUTF8))
         self.strikeoutAction.setStatusTip(QtGui.QApplication.translate("MainWindow", "글꼴에 취소선을 표시합니다.", None, QtGui.QApplication.UnicodeUTF8))

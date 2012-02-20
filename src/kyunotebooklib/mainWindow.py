@@ -163,30 +163,35 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
 
     @pyqtSignature('')
     def on_fontAction_triggered(self):
+        '''글꼴 대화 상자를 엶'''
         editor = self.pageTab.currentWidget()
         if editor is not None:
             editor.SetFont()
 
     @pyqtSignature('bool')
     def on_boldAction_triggered(self, check):
+        '''글꼴을 굵게 표시함'''
         editor = self.pageTab.currentWidget()
         if editor is not None:
-            editor.SetBold(check)
+            editor.setFontWeight(QFont.Bold if check else QFont.Normal)
 
     @pyqtSignature('bool')
     def on_italicAction_triggered(self, check):
+        '''글꼴을 이탤릭체로 표시함'''
         editor = self.pageTab.currentWidget()
         if editor is not None:
             editor.setFontItalic(check)
 
     @pyqtSignature('bool')
     def on_underlineAction_triggered(self, check):
+        '''글꼴에 밑줄을 표시함'''
         editor = self.pageTab.currentWidget()
         if editor is not None:
             editor.setFontUnderline(check)
 
     @pyqtSignature('bool')
     def on_strikeoutAction_triggered(self, check):
+        '''글꼴에 취소선을 표시함'''
         editor = self.pageTab.currentWidget()
         if editor is not None:
             editor.SetStrikeout(check)
@@ -223,11 +228,13 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
         settings.setValue('mainWindow.State', self.saveState())
 
     def FontComboBoxChanged(self, fontFamily):
+        '''글꼴 콤보박스의 값을 적용함'''
         editor = self.pageTab.currentWidget()
         if editor is not None:
             editor.setFontFamily(fontFamily)
 
     def FontSizeComboBoxChanged(self, fontSizeString):
+        '''글꼴 크기의 콤보박스의 값을 적용함'''
         fontSize = int(fontSizeString)
         if fontSize > 0:
             editor = self.pageTab.currentWidget()
@@ -275,6 +282,7 @@ class MainWindow(QMainWindow, ui_mainWindow.Ui_MainWindow):
             self.editPageAction.trigger()
 
     def AddPageTab(self, item):
+        '''탭에 페이지를 추가하는 메소드'''
         path = self.noteTree.GetItemPath(item)
         item.editor = textEditor.TextEditor(item, path)
         self.connect(item.editor, 

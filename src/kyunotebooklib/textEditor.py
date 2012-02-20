@@ -25,17 +25,13 @@ class TextEditor(QTextEdit):
         self.changed = True
 
     def SetFont(self):
+        '''글꼴 대화 상자 엶'''
         font, ok = QFontDialog.getFont(self.currentFont(), self)
         if ok:
             self.setCurrentFont(font)
 
-    def SetBold(self, check):
-        font = self.currentFont()
-        if font.bold() != check:
-            font.setBold(check)
-            self.setCurrentFont(font)
-
     def SetStrikeout(self, check):
+        '''글꼴에 취소선을 표시함'''
         font = self.currentFont()
         if font.strikeOut() != check:
             font.setStrikeOut(check)
